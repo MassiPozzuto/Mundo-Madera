@@ -4,8 +4,8 @@
 
 	$codpro=$_POST['codpro'];
 	$sql="select * from producto where codpro=$codpro";
-	$result=mysqli_query($con,$sql);
-	$row=mysqli_fetch_array($result);
+	$stmt=sqlsrv_query($conn,$sql);
+	$row=ssqlsrv_fetch_array($stmt, SQLSRV_FETCH_BOTH);
 	$obj=new stdClass();
 	$obj->nompro=utf8_encode($row['nompro']);
 	$obj->despro=utf8_encode($row['despro']);

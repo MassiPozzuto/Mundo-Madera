@@ -1,5 +1,5 @@
 <?php
-	include('config/conexion.php');
+	include('includes/config.php');
 ?>
 <!DOCTYPE html>
 <html>
@@ -16,10 +16,10 @@
 			<table class="mt10">
 				<thead>
 					<tr>
-						<th>Código</th>
-						<th>Usuario</th>
-						<th>Producto</th>
-						<th>Fecha</th>
+						<th>Nombre</th>
+						<th>Apellido</th>
+						<th>Telefono</th>
+						<th>Tipo</th>
 						<th>Estado</th>
 						<th>Dirección</th>
 						<th>Teléfono</th>
@@ -47,8 +47,8 @@
 							inner  join producto pro
 							on ped.codpro=pro.codpro
 							where ped.estado=2 or ped.estado=3 or ped.estado=4";
-						$resultado=mysqli_query($con,$sql);
-						while ($row=mysqli_fetch_array($resultado)) {
+						$stmt=sqlsrv_query($conn,$sql);
+						while ($row=sqlsrv_fetch_array($stmt, SQLSRV_FETCH_BOTH)) {
 							echo 
 					'<tr>
 						<td>'.$row['codped'].'</td>

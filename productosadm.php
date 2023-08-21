@@ -1,12 +1,12 @@
 <?php
-	include('config/conexion.php');
+	include('includes/config.php');
 ?>
 <!DOCTYPE html>
 <html>
 <head>
 	<title>Administracion | Productos</title>
 	<meta charset="utf-8">
-	<link rel="stylesheet" type="text/css" href="css/index.css">
+	<link rel="stylesheet" type="text/css" href="css/styleadm.css">
 	<link rel="stylesheet" type="text/css" href="font-awesome-4.7.0/css/font-awesome.min.css">
 </head>
 <body>
@@ -16,26 +16,24 @@
 			<h3>Añadir producto</h3>
 			<input type="text" id="codigo" style="display: none;">
 			<div class="div-flex">
+				<label>Categoria</label>
+				<select id="cat">
+				<option value="2">Cedro</option>
+					<option value="1">Roble</option>
+					<option value="0">Pino</option>
+				</select>
+			</div>
+			<div class="div-flex">
 				<label>Nombre</label>
 				<input type="text" id="nombre">
 			</div>
 			<div class="div-flex">
-				<label>Descripción</label>
-				<input type="text" id="descripcion">
+				<label>stock</label>
+				<input type="number" id="stock">
 			</div>
 			<div class="div-flex">
 				<label>Precio</label>
 				<input type="number" id="precio">
-			</div>
-			<div class="div-flex">
-				<label>Estado</label>
-				<select id="estado">
-					<option value="1">Activo</option>
-					<option value="0">Inactivo</option>
-				</select>
-			</div>
-			<div class="div-flex">
-				<input type="file" id="imagen">
 			</div>
 			<button onclick="save_producto()">Guardar</button>
 		</div>
@@ -49,28 +47,24 @@
 				<input type="text" id="codigo-e" disabled>
 			</div>
 			<div class="div-flex">
+				<label>Categoria</label>
+				<select id="cat-e">
+				<option value="2">Cedro</option>
+					<option value="1">Roble</option>
+					<option value="0">Pino</option>
+				</select>
+			</div>
+			<div class="div-flex">
 				<label>Nombre</label>
 				<input type="text" id="nombre-e">
 			</div>
 			<div class="div-flex">
-				<label>Descripción</label>
-				<input type="text" id="descripcion-e">
-			</div>
-			<div class="div-flex">
 				<label>Precio</label>
-				<input type="number" id="precio-e">
+				<input type="text" id="precio-e">
 			</div>
-			<input type="text" id="rutimapro-aux" style="display: none;">
 			<div class="div-flex">
-				<label>Estado</label>
-				<select id="estado-e">
-					<option value="1">Activo</option>
-					<option value="0">Inactivo</option>
-				</select>
-			</div>
-			<img id="rutimapro" src="" style="width: 200px;margin: 5px auto;">
-			<div class="div-flex">
-				<input type="file" id="imagen-e">
+				<label>Stock</label>
+				<input type="number" id="stock-e">
 			</div>
 			<button onclick="update_producto()">Actualizar</button>
 		</div>
@@ -83,27 +77,29 @@
 				<thead>
 					<tr>
 						<th>Código</th>
+						<th>Categoria</th>
 						<th>Nombre</th>
-						<th>Descripción</th>
 						<th>Precio</th>
+						<th>Stock</th>
 						<th class="td-option">Opciones</th>
 					</tr>
 				</thead>				
 				<tbody>
 					<?php
-						$sql="SELECT * from producto";
-						$resultado=mysqli_query($con,$sql);
-						while ($row=mysqli_fetch_array($resultado)) {
+						$sql="SELECT * from productos";
+						$stmt=sqlsrv_query($conn,$sql);
+						while ($row=sqlsrv_fetch_array($stmt, SQLSRV_FETCH_BOTH)) {
 							echo 
 					'<tr>
-						<td>'.$row['codpro'].'</td>
-						<td>'.$row['nompro'].'</td>
-						<td>'.$row['despro'].'</td>
-						<td>'.$row['prepro'].'</td>
+						<td>'.$row['id'].'</td>
+						<td>'.$row['id_categoria'].'</td>
+						<td>'.$row['nombre'].'</td>
+						<td>'.$row['precio'].'</td>
+						<td>'.$row['stock'].'</td>
 						<td class="td-option">
 							<div class="div-flex div-td-button">
-								<button onclick="edit_product('.$row['codpro'].')"><i class="fa fa-pencil" aria-hidden="true"></i></button>
-								<button onclick="delete_product('.$row['codpro'].')"><i class="fa fa-trash" aria-hidden="true"></i></button>
+								<button onclick="edit_product('.$row['id'].')"><i class="fa fa-pencil" aria-hidden="true"></i></button>
+								<button onclick="delete_product('.$row['id'].')"><i class="fa fa-trash" aria-hidden="true"></i></button>
 							</div>
 						</td>
 					</tr>';
@@ -125,10 +121,9 @@
 			let fd=new FormData();
 			fd.append('codigo',document.getElementById('codigo').value);
 			fd.append('nombre',document.getElementById('nombre').value);
-			fd.append('descripcion',document.getElementById('descripcion').value);
+			fd.append('stock',document.getElementById('stock').value);
 			fd.append('precio',document.getElementById('precio').value);
-			fd.append('estado',document.getElementById('estado').value);
-			fd.append('imagen',document.getElementById('imagen').files[0]);
+			fd.append('cat',document.getElementById('cat').value);
 			let request=new XMLHttpRequest();
 			request.open('POST','api/producto_save.php',true);
 			request.onload=function(){
@@ -179,11 +174,9 @@
 					console.log(response);
 					document.getElementById("codigo-e").value=codpro;
 					document.getElementById("nombre-e").value=response.product.nompro;
-					document.getElementById("descripcion-e").value=response.product.despro;
+					document.getElementById("stock-e").value=response.product.despro;
 					document.getElementById("precio-e").value=response.product.prepro;
-					document.getElementById("estado-e").value=response.product.estado;
-					document.getElementById("rutimapro").src="../sistema-ecommerce/assets/products/"+response.product.rutimapro;
-					document.getElementById("rutimapro-aux").value=response.product.rutimapro;
+					document.getElementById("cat-e").value=response.product.estado;
 					show_modal('modal-producto-edit');
 					//imagen-e
 				}

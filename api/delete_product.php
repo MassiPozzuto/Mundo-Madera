@@ -4,12 +4,12 @@
 
 	$codpro=$_POST['codpro'];
 	$sql="select * from pedido where codpro=$codpro";
-	$result=mysqli_query($con,$sql);
-	$row=mysqli_fetch_array($result);
-	$contador=mysqli_num_rows($result);
-	if ($contador>0) {
+	$stmt=sqlsrv_query($conn,$sql);
+	$row=sqlsrv_fetch_array($stmt, SQLSRV_FETCH_BOTH);
+	$conntador=sqlsrv_num_rows($result);
+	if ($conntador>0) {
 		$sql="update producto set estado=0 where codpro=$codpro";
-		$result=mysqli_query($con,$sql);
+		$result=sqlsrv_query($conn,$sql);
 		if ($result) {
 			$response->state=true;
 		}else{
@@ -18,13 +18,13 @@
 		}
 	}else{
 		$sql="select rutimapro from producto where codpro=$codpro";
-		$result=mysqli_query($con,$sql);
-		$row=mysqli_fetch_array($result);
+		$stmt=sqlsrv_query($conn,$sql);
+		$row=sqlsrv_fetch_array($stmt, SQLSRV_FETCH_BOTH);
 		$rutimapro=$row['rutimapro'];
 
 		$sql="delete from producto
 		where codpro=$codpro";
-		$result=mysqli_query($con,$sql);
+		$result=sqlsrv_query($conn,$sql);
 		if ($result) {
 			$response->state=true;
 			//recuerda que debes redireccionar al nombre de proyecto correcto
