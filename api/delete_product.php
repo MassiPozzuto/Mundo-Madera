@@ -1,5 +1,5 @@
 <?php
-	include("../config/conexion.php");
+	require("../config/conexion.php");
 	$response=new stdClass();
 
 	$codpro=$_POST['codpro'];
