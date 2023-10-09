@@ -15,7 +15,7 @@
 		$sql="update producto set nompro='$nompro',despro='$despro',
 		estado=$estado,prepro=$prepro,rutimapro='$nombre_imagen'
 		where codpro=$codpro";
-		$result=sqlsrv_query($conn,$sql);
+		$result=mysqli_query($conn,$sql);
 		if ($result) {			
 			//recuerda que debes redireccionar al nombre de proyecto correcto
 			// ejm: sistema-ecommerce-master
@@ -36,7 +36,7 @@
 		$sql="update producto set nompro='$nompro',despro='$despro',
 		estado=$estado,prepro=$prepro
 		where codpro=$codpro";
-		$result=sqlsrv_query($conn,$sql);
+		$result=mysqli_query($conn,$sql);
 		if ($result) {
 			$response->state=true;
 		}else{

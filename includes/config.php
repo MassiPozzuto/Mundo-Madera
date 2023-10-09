@@ -1,12 +1,11 @@
 <?php
 date_default_timezone_set('America/Argentina/Buenos_Aires');
-$servername = "localhost";
-$connectioninfo = array("Database" => "mundo-madera");
-$conn = mysqli_connect($servername, $connectioninfo);
+
+$conn = mysqli_connect("localhost", "root", "", "mundo-madera");
 
 if(!$conn){
     echo "La conexion no se pudo establecer.<br />";
-    die(print_r(sqlsrv_errors(), true));
+    die(print_r(mysqli_errors(), true));
 }
 
 ?>

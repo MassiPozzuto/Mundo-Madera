@@ -5,7 +5,7 @@
 	$codped=$_POST['codped'];
 	$sql="UPDATE pedido set estado=4
 	where codped=$codped";
-	$result=sqlsrv_query($conn,$sql);
+	$result=mysqli_query($conn,$sql);
 	if ($result) {
 		$response->state=true;
 	}else{

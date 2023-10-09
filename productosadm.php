@@ -89,8 +89,8 @@ include('includes/config.php');
 				<tbody>
 					<?php
 					$sql = "SELECT * from productos";
-					$stmt = sqlsrv_query($conn, $sql);
-					while ($row = sqlsrv_fetch_array($stmt, SQLSRV_FETCH_BOTH)) {
+					$stmt = mysqli_query($conn, $sql);
+					while ($row = mysqli_fetch_array($stmt, MYSQLI_BOTH)) {
 						echo
 						'<tr>
 						<td>' . $row['id'] . '</td>
