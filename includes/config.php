@@ -5,7 +5,7 @@ $conn = mysqli_connect("localhost", "root", "", "mundo-madera");
 
 if(!$conn){
     echo "La conexion no se pudo establecer.<br />";
-    die(print_r(mysqli_errors(), true));
+    die(print_r(mysqli_connect_error()));
 }
 
 ?>
