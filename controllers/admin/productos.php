@@ -3,5 +3,5 @@ require('../../includes/config.php');
 
 
 $page = "Productos";
-$section = "products";
+$section = "productos";
 require_once "../../views/admin/layout.php";

@@ -1,7 +1,7 @@
 <?php
 require('../../includes/config.php');
 
-$page = "Iniciar sesión";
-$section = "login";
+$page = "Envios";
+$section = "envios";
 require_once "../../views/admin/layout.php";
 ?>

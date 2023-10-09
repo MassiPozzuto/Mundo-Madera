@@ -5,6 +5,9 @@ a {
 
 body {
     display: flex;
+	background: #eee;
+    min-width: 100vw;
+    min-height: 100vh;
 }
 
 header {
