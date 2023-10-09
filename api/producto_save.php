@@ -18,7 +18,7 @@
 			$response->detail="Falta el precio";
 		}else{
 				$stmt="INSERT INTO productos (id_categoria,nombre,stock,precio,fecha_creacion) VALUES ($categoria,'$nombre', $stock, $precio, '$date');";
-				$result=sqlsrv_query($conn,$stmt);
+				$result=mysqli_query($conn,$stmt);
 
 				if ($result) {
 						$response->state=true;

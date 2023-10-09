@@ -47,8 +47,8 @@
 							inner  join producto pro
 							on ped.codpro=pro.codpro
 							where ped.estado=2 or ped.estado=3 or ped.estado=4";
-						$stmt=sqlsrv_query($conn,$sql);
-						while ($row=sqlsrv_fetch_array($stmt, SQLSRV_FETCH_BOTH)) {
+						$stmt=mysqli_query($conn,$sql);
+						while ($row=mysqli_fetch_array($stmt, MYSQLI_BOTH)) {
 							echo 
 					'<tr>
 						<td>'.$row['codped'].'</td>
