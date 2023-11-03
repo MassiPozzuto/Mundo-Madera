@@ -8,14 +8,13 @@
 	$despro=$_POST['descripcion'];
 	$prepro=$_POST['precio'];
 	$estado=$_POST['estado'];
-	$rutimapro=$_POST['rutimapro'];
 
 	if(isset($_FILES['imagen'])){
 		$nombre_imagen = date("YmdHis").".jpg";  
-		$sql="update producto set nompro='$nompro',despro='$despro',
-		estado=$estado,prepro=$prepro,rutimapro='$nombre_imagen'
-		where codpro=$codpro";
-		$result=mysqli_query($conn,$sql);
+		$stmt= $conn->prepare("UPDATE producto SET nompro=?,despro=?,
+		estado=? ,prepro = ?
+		WHERE codpro= ?");
+		$result=$stmt->bind_param("ssi",$sql);
 		if ($result) {			
 			//recuerda que debes redireccionar al nombre de proyecto correcto
 			// ejm: sistema-ecommerce-master

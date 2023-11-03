@@ -17,22 +17,22 @@
 			$response->state=false;
 			$response->detail="Falta el precio";
 		}else{
-				$stmt="INSERT INTO productos (id_categoria,nombre,stock,precio,fecha_creacion) VALUES ($categoria,'$nombre', $stock, $precio, '$date');";
-				$result=mysqli_query($conn,$stmt);
-
-				if ($result) {
+				$stmt= $conn->prepare("INSERT INTO productos (id_categoria,nombre,stock,precio,fecha_creacion) VALUES (?,?,?,?,?);");
+				if($stmt->bind_param("isiis", $categoria,$nombre, $stock, $precio, $date)){
+					if ($stmt->execute()) {
 						$response->state=true;
+					} else {
+						echo "Falló la ejecución: (" . $stmt->errno . ") " . $stmt->error;
+						$response->state=false;
+						$response->detail="No se pudo guardar el producto";
 					}
-				else{
-					/*$response->categoria= $categoria;
-					$response->nombre= $nombre;
-					$response->stock= $stock;
-					$response->precio= $precio;
-					$response->date= $date;*/
-					$response->state=false;
-					$response->detail="No se pudo guardar el producto";
+				}else{
+					echo "Falló la vinculación de parámetros: (" . $stmt->errno . ") " . $stmt->error;
 				}
+				
+				
 			}}
 
+	$stmt->close();
 
 	echo json_encode($response);

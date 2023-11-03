@@ -23,6 +23,9 @@
             <label>Precio</label>
             <input type="number" id="precio">
         </div>
+        <div class="div-flex">
+            <input type="file" id="imagen" style="margin-left: 100px;">
+        </div>
         <button onclick="save_producto()">Guardar</button>
     </div>
 </div>
@@ -54,6 +57,9 @@
             <label>Stock</label>
             <input type="number" id="stock-e">
         </div>
+        <div class="div-flex">
+            <input type="file" id="imagen-e" style="margin-left: 100px;">
+        </div>
         <button onclick="update_producto()">Actualizar</button>
     </div>
 </div>
@@ -74,8 +80,8 @@
             <tbody>
                 <?php
                 $sql = "SELECT * from productos";
-                $stmt = sqlsrv_query($conn, $sql);
-                while ($row = sqlsrv_fetch_array($stmt, SQLSRV_FETCH_BOTH)) {
+                $stmt = mysqli_query($conn, $sql);
+                while ($row = mysqli_fetch_array($stmt, SQLSRV_FETCH_BOTH)) {
                     echo
                     '<tr>
                     <td>' . $row['id'] . '</td>
@@ -113,8 +119,9 @@
         fd.append('stock', document.getElementById('stock').value);
         fd.append('precio', document.getElementById('precio').value);
         fd.append('cat', document.getElementById('cat').value);
+        fd.append('imagen', document.getElementById('imagen').files[0]);
         let request = new XMLHttpRequest();
-        request.open('POST', 'api/producto_save.php', true);
+        request.open('POST', '../../api/producto_save.php', true);
         request.onload = function() {
             if (request.readyState == 4 && request.status == 200) {
                 let response = JSON.parse(request.responseText);
