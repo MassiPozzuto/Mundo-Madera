@@ -36,10 +36,10 @@
       </div>
       <div class="container__header-menu">
         <ul class="header__menu-list">
-          <li class="header__menu-item item-products <?php echo ($section == "productos") ? "active" : null; ?>"><a href="productos.php"><i class="bi bi-cart2"></i>Productos</a></li>
-          <li class="header__menu-item item-categories <?php echo ($section == "categorias") ? "active" : null; ?>"><a href="categorias.php"><i class="bi bi-tags"></i>Categorias</a></li>
           <li class="header__menu-item item-shipments <?php echo ($section == "pedidos") ? "active" : null; ?>"><a href="pedidos.php"><i class="bi bi-card-list"></i>Pedidos</a></li>
           <li class="header__menu-item item-logout <?php echo ($section == "envios") ? "active" : null; ?>"><a href="envios.php"><i class="bi bi-truck"></i>Envios</a></li>
+          <li class="header__menu-item item-products <?php echo ($section == "productos") ? "active" : null; ?>"><a href="productos.php"><i class="bi bi-cart2"></i>Productos</a></li>
+          <li class="header__menu-item item-categories <?php echo ($section == "categorias") ? "active" : null; ?>"><a href="categorias.php"><i class="bi bi-tags"></i>Categorias</a></li>
           <li class="header__menu-item item-users  <?php echo ($section == "usuarios") ? "active" : null; ?>"><a href="usuarios.php"><i class="bi bi-person"></i>Usuarios</a></li>
         </ul>
 
