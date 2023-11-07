@@ -3,7 +3,7 @@
 	$response=new stdClass();
 
 	$codpro=$_POST['codpro'];
-	$sql="select * from producto where codpro=$codpro";
+	$sql="SELECT * FROM producto WHERE codpro=$codpro";
 	$stmt=mysqli_query($conn,$sql);
 	$row=mysqli_fetch_array($stmt, MYSQLI_BOTH);
 	$obj=new stdClass();

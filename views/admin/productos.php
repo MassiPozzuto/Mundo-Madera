@@ -90,9 +90,9 @@
                     <td>' . $row['precio'] . '</td>
                     <td>' . $row['stock'] . '</td>
                     <td class="td-option">
-                        <div class="div-flex div-td-button">
+                        <div class="div-flex div-td-button" style="margin-left: 6px;">
                             <button onclick="edit_product(' . $row['id'] . ')"><i class="fa fa-pencil" aria-hidden="true"></i></button>
-                            <button onclick="delete_product(' . $row['id'] . ')"><i class="fa fa-trash" aria-hidden="true"></i></button>
+                            <button onclick="delete_product(' . $row['id'] . ')"><i class="fa fa-trash" aria-hidden="true" style="margin-left:3px"></i></button>
                         </div>
                     </td>
                 </tr>';

@@ -15,6 +15,7 @@
   <link href="https://fonts.googleapis.com/css?family=Lato:300,400,700&display=swap" rel="stylesheet">
   <!-- BOOTSTRAP -->
   <script src="../../js/bootstrap.bundle.js"></script>
+  <script src="https://kit.fontawesome.com/102508a8c0.js" crossorigin="anonymous"></script>
   <link href="../../css/bootstrap.css" rel="stylesheet">
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.8.3/font/bootstrap-icons.css">
   <!-- JQUERY -->
