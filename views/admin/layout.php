@@ -23,6 +23,7 @@
   <!-- CSS -->
   <link href="../../css/main.css" rel="stylesheet">
   <link href="../../css/<?php echo $section; ?>.css" rel="stylesheet">
+  <link rel="stylesheet" type="text/css" href="../../css/styleadm.css">
 
 </head>
 
