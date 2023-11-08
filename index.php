@@ -1,5 +1,5 @@
 <?php
 
-	header("Location: controllers/admin/login.php");
+	header("Location: controllers/admin/inicio.php");
 
 ?>

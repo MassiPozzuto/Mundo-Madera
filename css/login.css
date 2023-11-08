@@ -1,0 +1,179 @@
+.container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+#formLogin {
+    color: #D6D7D9;
+}
+
+body {
+    background: #1D1C1C;
+    margin: 0;
+}
+
+.container__all {
+    width: 100%;
+    margin-top: 2rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    color: #FFF;
+}
+
+.container__logo {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.container__data {
+    padding: 15px;
+    width: 450px;
+}
+
+@media (max-width: 420px) {
+    .container__data {
+        width: auto;
+    }
+}
+
+.container__title {
+    margin-bottom: 20px;
+}
+    .container__title p {
+        font-size: 1.75rem;
+        font-weight: bold;
+        text-align: center;
+        color: white;
+    }
+
+.login__form, .register__form {
+    width: 100%;
+}
+
+.form-group {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    margin-bottom: 22px;
+}
+
+    .form-group .input-title {
+        font-size: 15px;
+        font-weight: 600;
+        padding-left: 0px;
+        margin-bottom: 5px;
+    }
+
+    .form-group input {
+        background-color: #464A54;
+        box-shadow: none;
+        border: 1px solid #76777D;
+        border-radius: 0.25rem;
+        padding: 11px;
+        font-size: 14px;
+        color: #FFF;
+    }
+
+    .form-group input:hover {
+        background-color: #4E525D;
+    }
+
+    .form-group input:focus{
+        outline: none;
+        border-color: #FFF;
+    }
+
+/************** CHECKBOX *******************/
+.remember {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 0.875rem;
+}
+
+.label__remember {
+    display: flex;
+    align-items: center;
+    position: relative;
+    padding-left: 30px;
+    cursor: pointer;
+    user-select: none;
+    font-weight: 600;
+    font-size: 14px;
+}
+
+    .label__remember input {
+        position: absolute;
+        opacity: 0;
+        cursor: pointer;
+        height: 0;
+        width: 0;
+    }
+
+.checkmark {
+    position: absolute;
+    /*top: 0;*/
+    left: 0;
+    height: 18px;
+    width: 18px;
+    background-color: #464A54;
+    border: 1px solid #76777D;
+    border-radius: 0.25rem;
+}
+
+/* Al pasar el mouse encima, lo ponemos gris */
+.label__remember:hover input ~ .checkmark {
+    background-color: #4E525D;
+}
+
+/* creamos el marcador (escondido al no seleccionar) */
+.checkmark:after {
+    content: "";
+    position: absolute;
+    display: none;
+}
+
+/* Mostramos el tick cuando se cliclea */
+.label__remember input:checked ~ .checkmark:after {
+    display: block;
+}
+
+/* Fondo del checkbox falso cuando esta activo*/
+.label__remember input:checked ~ .checkmark {
+    background-color: #265834;
+    border-color: #265834;
+}
+
+/* estilo del marcador */
+.label__remember .checkmark:after {
+    left: 5px;
+    top: 1px;
+    width: 6px;
+    height: 11px;
+    border: solid white;
+    border-width: 0 2px 2px 0;
+    -webkit-transform: rotate(45deg);
+    -ms-transform: rotate(45deg);
+    transform: rotate(45deg);
+}
+
+/************** FIN CHECKBOX *******************/
+
+#login-submit, #register-submit {
+    border: none;
+    border-radius: 0.25rem;
+    padding: 10px;
+    font-size: 15px;
+    font-weight: 700;
+    background-color: #265834;
+    color: #FFF;
+    cursor: pointer;
+}
+
+.msj_error_login {
+    text-align: center;
+}
