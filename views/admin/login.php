@@ -7,15 +7,19 @@
         <p>Inicia sesión en Mundo Madera</p>
     </div>
 
-    <form method="POST" class="login__form" id="formLogin">
+    <form action="login.php" method="POST" class="login__form" id="formLogin">
 
-        <div class="form-group" style="display: none;">
-            <p class="" id="msj_error_login"></p>
-        </div>
+        <?php 
+        if(isset($error_msj)) {?>
+            <div class="form-group" >
+                <p class="msj_error" id="msj_error_login"><?php echo $error_msj ?></p>
+            </div>
+        <?php
+        } ?>
 
         <div class="form-group">
-            <label for="email" class="input-title">Nombre de usuario</label>
-            <input type="email" name="email" id="email">
+            <label for="username" class="input-title">Nombre de usuario</label>
+            <input type="text" name="username" id="username" value="<?php echo (isset($_POST['username'])) ? $_POST['username'] : null; ?>">
         </div>
 
         <div class="form-group">

@@ -46,7 +46,7 @@
         </ul>
 
         <div class="header__menu-item item-logout" id="salir">
-          <a href="#"><i class="bi bi-box-arrow-left"></i>Salir</a>
+          <a href="logout.php"><i class="bi bi-box-arrow-left"></i>Salir</a>
         </div>
       </div>
     </header>

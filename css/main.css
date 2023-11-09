@@ -1,5 +1,3 @@
-
-
 * {
     font-family: 'Open Sans', sans-serif;
     margin: 0;
@@ -128,4 +126,9 @@ header {
 
 .container_login{
     background-color: #E6E6E5;
+}
+
+.msj_error {
+    font-size: 14px;
+    color: red;
 }
