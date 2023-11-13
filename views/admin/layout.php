@@ -34,7 +34,7 @@
 
     <header>
       <div class="container__header-logo">
-        <img src="../../img/logo_inicial.png" alt="Log Mundo Madera">
+        <img src="../../img/logo_inicial.jpg" alt="Log Mundo Madera">
       </div>
       <div class="container__header-menu">
         <ul class="header__menu-list">
