@@ -205,7 +205,7 @@ select{
     flex-direction: column;
     gap: 15px;
     background-color: #fff;
-    margin: 10% auto;
+    margin: auto;
     padding: 20px;
     border-radius: 8px;
     width: 80%;
