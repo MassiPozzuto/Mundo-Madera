@@ -1,6 +1,6 @@
 <div class="container__data">
     <div class="container__logo">
-        <img src="../../img/logo_inicial.png" alt="Logo Mundo Madera" width="300px">
+        <img src="../../img/logo_inicial.jpg" alt="Logo Mundo Madera" width="300px">
     </div>
 
     <div class="container__title">

@@ -1,30 +1,34 @@
-<div class="modal" id="modal-producto">
+<div class="modal" id="modal__new-product">
     <div class="modal-content">
         <div class="modal-info">
             <h3>Agregar producto</h3>
         </div>
         <div class="modal-input-group">
             <label>Categoría</label>
-            <select id="cat" class="modal-input">
-                <option value="0" hidden disabled selected>Selecciona una categoría</option>
+            <select id="new__product-cat" class="modal-input select-category">
+                <!--<option value="0" hidden disabled selected>Selecciona una categoría</option>
                 <option value="1">Roble</option>
-                <option value="2">Pino</option>
-                <option value="4">Cedro</option>
+                <option value="2">Cedro</option>
+                <option value="3">Pino</option>-->
             </select>
+            <p class="errormessage__form"></p>
         </div>
         <div class="modal-input-group">
             <label>Nombre</label>
-            <input type="text" id="nombre" class="modal-input">
+            <input type="text" id="new__product-name" class="modal-input">
+            <p class="errormessage__form"></p>
         </div>
         <div class="modal-input-group">
             <label>Stock</label>
-            <input type="number" id="stock" class="modal-input">
+            <input type="number" id="new__product-stock" class="modal-input">
+            <p class="errormessage__form"></p>
         </div>
         <div class="modal-input-group">
             <label>Precio</label>
-            <input type="number" id="precio" class="modal-input">
+            <input type="number" id="new__product-price" class="modal-input">
+            <p class="errormessage__form"></p>
         </div>
-        <div class="modal-input-group input-group-img">
+        <div class="modal-input-group input-group-img fail">
             <button class="" id="btn-open-file">
                 <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-camera-plus" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
                     <path stroke="none" d="M0 0h24v24H0z" fill="none" />
@@ -35,17 +39,28 @@
                 </svg>
                 <span>Agregar imagen ilustrativa</span>
             </button>
-            <input type="file" id="imagen" class="modal-input" hidden>
+            <input type="file" id="new__product-img" class="modal-input" accept="image/jpeg,image/png,image/webp" hidden>
+            <div class="modal__preview-img">
+                <img class="preview__img" alt="Preview" id="new__product-preview-img">
+                <button class="btn__remove-img" id="new__product-delete-img">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-x" width="20" height="20" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                        <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+                        <path d="M18 6l-12 12" />
+                        <path d="M6 6l12 12" />
+                    </svg>
+                </button>
+            </div>
+            <p class="errormessage__form"></p>
         </div>
         <div class="modal-btns">
             <button class="modal-btn cancel" id="modal-cancel">Cancelar</button>
-            <button class="modal-btn confirm" id="modal-confirm">Confirmar</button>
+            <button class="modal-btn confirm" id="new__product-submit">Confirmar</button>
         </div>
     </div>
 </div>
 
-
-<div class="modal" style="display: none;">
+<!--
+<div class="modal" style="display: none;" >
     <div class="body-modal">
         <button class="btn-close" onclick="hide_modal('modal-producto')"><i class="fa fa-times" aria-hidden="true"></i></button>
         <h3>Añadir producto</h3>
@@ -53,9 +68,9 @@
         <div class="div-flex">
             <label>Categoria</label>
             <select id="cat">
-                <option value="4">Cedro</option>
-                <option value="3">Roble</option>
-                <option value="1">Pino</option>
+                <option value="1">Roble</option>
+                <option value="2">Cedro</option>
+                <option value="3">Pino</option>
             </select>
         </div>
         <div class="div-flex">
@@ -78,8 +93,75 @@
         </div>
     </div>
 </div>
+-->
 
-<div class="modal" id="modal-producto-edit" style="display: none;">
+
+<div class="modal" id="modal__update-product">
+    <div class="modal-content">
+        <div class="modal-info">
+            <h3>Actualizar producto</h3>
+        </div>
+
+        <input type="number" id="update__product-name" class="modal-input" hidden>
+
+        <div class="modal-input-group">
+            <label>Categoría</label>
+            <select id="update__product-cat" class="modal-input select-category">
+                <!--<option value="0" hidden disabled selected>Selecciona una categoría</option>
+                <option value="1">Roble</option>
+                <option value="2">Cedro</option>
+                <option value="3">Pino</option>-->
+            </select>
+            <p class="errormessage__form"></p>
+        </div>
+        <div class="modal-input-group">
+            <label>Nombre</label>
+            <input type="text" id="update__product-name" class="modal-input">
+            <p class="errormessage__form"></p>
+        </div>
+        <div class="modal-input-group">
+            <label>Stock</label>
+            <input type="number" id="update__product-stock" class="modal-input">
+            <p class="errormessage__form"></p>
+        </div>
+        <div class="modal-input-group">
+            <label>Precio</label>
+            <input type="number" id="update__product-price" class="modal-input">
+            <p class="errormessage__form"></p>
+        </div>
+        <div class="modal-input-group input-group-img fail">
+            <button class="" id="btn-open-file">
+                <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-camera-plus" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                    <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+                    <path d="M12 20h-7a2 2 0 0 1 -2 -2v-9a2 2 0 0 1 2 -2h1a2 2 0 0 0 2 -2a1 1 0 0 1 1 -1h6a1 1 0 0 1 1 1a2 2 0 0 0 2 2h1a2 2 0 0 1 2 2v3.5" />
+                    <path d="M16 19h6" />
+                    <path d="M19 16v6" />
+                    <path d="M9 13a3 3 0 1 0 6 0a3 3 0 0 0 -6 0" />
+                </svg>
+                <span>Agregar imagen ilustrativa</span>
+            </button>
+            <input type="file" id="update__product-img" class="modal-input" accept="image/jpeg,image/png,image/webp" hidden>
+            <div class="modal__preview-img">
+                <img class="preview__img" alt="Preview" id="update__product-preview-img">
+                <button class="btn__remove-img" id="update__product-delete-img">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-x" width="20" height="20" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                        <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+                        <path d="M18 6l-12 12" />
+                        <path d="M6 6l12 12" />
+                    </svg>
+                </button>
+            </div>
+            <p class="errormessage__form"></p>
+        </div>
+        <div class="modal-btns">
+            <button class="modal-btn cancel" id="modal-cancel">Cancelar</button>
+            <button class="modal-btn confirm" id="update__product-submit">Confirmar</button>
+        </div>
+    </div>
+</div>
+
+
+<div class="modal" id="modal__new-product">
     <div class="body-modal">
         <button class="btn-close" onclick="hide_modal('modal-producto-edit')"><i class="fa fa-times" aria-hidden="true"></i></button>
         <h3>Editar producto</h3>
@@ -89,10 +171,11 @@
         </div>
         <div class="div-flex">
             <label>Categoria</label>
-            <select id="cat-e">
-                <option value="4">Cedro</option>
-                <option value="3">Roble</option>
-                <option value="1">Pino</option>
+            <select id="cat-e" class="select-category">
+                <!--<option value="0" hidden disabled selected>Selecciona una categoría</option>
+                <option value="1">Roble</option>
+                <option value="2">Cedro</option>
+                <option value="3">Pino</option>-->
             </select>
         </div>
         <div class="div-flex">
@@ -118,7 +201,7 @@
 
     <div class="container__page-title">
         <h2 class="page__title">Productos actuales</h2>
-        <button type="button" class="btn-add" onclick="show_modal('modal-producto')">
+        <button type="button" class="btn-add" onclick="show_modal('modal__new-product')">
             <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-plus" width="20" height="20" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
                 <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
                 <path d="M12 5l0 14"></path>

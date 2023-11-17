@@ -251,8 +251,9 @@ select {
 
 .input-group-img {
     align-items: center;
+	gap: 10px;
 }
-.input-group-img button{
+.input-group-img > button{
 	display: flex;
 	align-items: center;
 	justify-content: center;
@@ -298,6 +299,40 @@ select {
     }
 
 
-	select:active, select:focus {
-            border-color: #333;
-        }
+
+	.modal__preview-img {
+		display: none;
+		position: relative;
+		max-width: 200px;
+	  }
+  
+	  .preview__img {
+		max-width: 100%;
+		height: auto;		
+		border-radius: 0.25rem;
+
+	  }
+  
+	  .btn__remove-img {
+		position: absolute;
+		border: 0;
+		top: 5px;
+		right: 5px;
+		padding: 3px 5px;
+		color: #fff;
+		background-color: rgba(0, 0, 0, 0.5);
+		border-radius: 50%;
+	  }
+
+
+	.errormessage__form {
+		display: none;
+		font-size: 13px;
+		color: red;
+		margin: 3px 3px 0 3px;
+	}
+
+	.modal-input-group.fail input,
+	.modal-input-group.fail select {
+		border: 1px solid red;
+	}
