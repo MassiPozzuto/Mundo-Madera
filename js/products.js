@@ -1,3 +1,21 @@
+
+const allowedTypes = ['image/jpeg', 'image/png', 'image/webp'];
+const maxSize = 5 * 1024 * 1024; // 5 MB en bytes
+
+//SELECT2
+$('.select-category').select2({
+    language: "es",
+    matcher: function (params, data) {
+        // Si la opción está deshabilitada u oculta, no es un candidato de coincidencia
+        if (data.disabled || data.element.hidden) {
+            return null;
+        }
+
+        // Aplica la lógica de búsqueda predeterminada para otras opciones
+        return $.fn.select2.defaults.defaults.matcher(params, data);
+    }
+});
+
 //AGREGAR CATEGORIAS DINAMICAMENTE
 const selectsCategory = document.querySelectorAll('.select-category')
 axios.post('../../api/get_categories.php')
@@ -23,7 +41,7 @@ axios.post('../../api/get_categories.php')
         });
     })
     .catch(error => {
-        alert('Ocurrió un error inesperado. Intentelo más tarde', 'error')
+        alertMsj('Ocurrió un error inesperado. Intentelo más tarde', 'error')
         console.log("Error atrapado:", error);
     });
 
@@ -59,17 +77,15 @@ document.getElementById('new__product-img').addEventListener('change', () => {
 
     if (file) {
         // Validar el tipo de archivo
-        const allowedTypes = ['image/jpeg', 'image/png', 'image/webp'];
         if (!allowedTypes.includes(file.type)) {
-            alert('Por favor, selecciona una imagen JPEG, PNG o WEBP.');
+            alertMsj('Por favor, selecciona una imagen JPEG, PNG o WEBP.', 'error');
             input.value = ''; // Limpiar el input file
             return;
         }
 
         // Validar el tamaño del archivo (5 MB)
-        const maxSize = 5 * 1024 * 1024; // 5 MB en bytes
         if (file.size > maxSize) {
-            alert('La imagen no debe superar los 5 MB.');
+            alertMsj('La imagen no debe superar los 5 MB.', 'error');
             input.value = ''; // Limpiar el input file
             return;
         }
@@ -126,7 +142,7 @@ document.getElementById('new__product-submit').addEventListener('click', (e) => 
 
     
     //STOCK
-    if (!stock.value.trim() || parseInt(stock.value, 10) > 2147483647) {
+    if (!stock.value.trim() || parseInt(stock.value, 10) > 2147483647 || parseInt(stock.value, 10) < 0) {
         failValidation(stock, 'Debe ingresar una cantidad de stock válida.')
 
     } else {
@@ -135,7 +151,7 @@ document.getElementById('new__product-submit').addEventListener('click', (e) => 
     }
 
     //PRECIO
-    if (!price.value.trim() || parseInt(price.value, 10) > 2147483647) {
+    if (!price.value.trim() || parseInt(price.value, 10) > 2147483647 || parseInt(stock.value, 10) < 0) {
         failValidation(price, 'Debe ingresar un precio válido.')
 
     } else {
@@ -144,9 +160,9 @@ document.getElementById('new__product-submit').addEventListener('click', (e) => 
     }
 
     //IMG
-    const allowedTypes = ['image/jpeg', 'image/png', 'image/webp'];
-    const maxSize = 5 * 1024 * 1024; // 5 MB en bytes
-    if (!allowedTypes.includes(img.files[0].type)) {
+    if (!img.files[0]) {
+        failValidation(img, 'Debe ingresar una imagen.')
+    } else if (!allowedTypes.includes(img.files[0].type)) {
         failValidation(img, 'Debe ingresar una imagen de formato JPEG, PNG o WEBP.')
     } else if(img.files[0].size > maxSize) {
         failValidation(img, 'Debe ingresar una imagen de máximo 5MB.')
@@ -168,9 +184,26 @@ document.getElementById('new__product-submit').addEventListener('click', (e) => 
             .then(response => {
                 // Manejar la respuesta exitosa aquí
                 console.log(response.data)
+                if (response.data.success) {
+                    location.reload();
+
+                } else {
+                    successValidation(category)
+                    successValidation(name)
+                    successValidation(stock)
+                    successValidation(price)
+                    successValidation(img)
+                    Object.keys(response.data.errors).forEach(fieldId => {
+                        const errorMessage = response.data.errors[fieldId];
+                        const input = document.getElementById(fieldId);
+                        if (input) {
+                            failValidation(input, errorMessage);
+                        }
+                    });
+                }
             })
             .catch(error => {
-                alert('Ocurrió un error inesperado. Intentelo más tarde', 'error')
+                alertMsj('Ocurrió un error inesperado. Intentelo más tarde', 'error')
                 console.log("Error atrapado:", error);
             });
     }
@@ -191,18 +224,58 @@ btnsUpdate.forEach(btnUpdate => {
             .then(response => {
                 // Manejar la respuesta exitosa aquí
                 console.log(response.data)
+                console.log(document.getElementById('update__product-cat').value)
+
+                //Reemplazo todos los datos normales
                 document.getElementById('update__product-id').value = response.data.id
-                document.getElementById('update__product-cat').value = response.data.id_categoria
                 document.getElementById('update__product-name').value = response.data.nombre
                 document.getElementById('update__product-stock').value = response.data.stock
                 document.getElementById('update__product-price').value = response.data.precio
+                // Reemplazo el valor del select2
+                $('#update__product-cat').val(response.data.id_categoria).trigger('change');
 
-                if(response.data.rutimapro != null){
+                //Reemplazo la imagen si existe
+                if (response.data.rutaImg != null){
                     document.getElementById('update__product-preview-img').parentNode.style.display = 'block';
-                    document.getElementById('update__product-preview-img').src = `../../img/products/${response.data.rutimapro}`
+                    document.getElementById('update__product-preview-img').src = `../${response.data.rutaImg}`;
+                } else {
+                    document.getElementById('update__product-preview-img').parentNode.style.display = 'none';
+                    document.getElementById('update__product-preview-img').src = '';
+                    document.getElementById('new__product-img').value = '';
                 }
-                
+
                 document.getElementById('modal__update-product').style.display = "block";
+            })
+            .catch(error => {
+                alertMsj('Ocurrió un error inesperado. Intentelo más tarde', 'error')
+                console.log("Error atrapado:", error);
+            });
+    })
+})
+
+
+//ELIMINAR PRODUCTOS
+var btnsDelete = document.querySelectorAll('.btn__delete-product')
+btnsDelete.forEach(btnDelete => {
+    btnDelete.addEventListener('click', () => {
+        const idProduct = btnDelete.id.split("-")[1]
+        console.log(idProduct)
+
+        var formData = new FormData();
+        formData.append('id', idProduct);
+
+        axios.post('../../api/delete_product.php', formData)
+            .then(response => {
+                // Manejar la respuesta exitosa aquí
+                console.log(response.data)
+
+                if (response.data.state) {
+                    //Producto eliminado correctamente
+                    alertMsj(response.data.msj, 'success')
+                } else {
+                    //No se pudo eliminar el producto
+                    alertMsj(response.data.msj, 'error')
+                }
             })
             .catch(error => {
                 alertMsj('Ocurrió un error inesperado. Intentelo más tarde', 'error')

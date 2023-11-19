@@ -11,7 +11,7 @@ if(!$conn){
 session_start();
 if(!isset($_SESSION['user'])){
     if (isset($_COOKIE['username']) || isset($_COOKIE['password'])) {
-        $sqlLogin = "SELECT usuarios.* FROM users 
+        $sqlLogin = "SELECT usuarios.* FROM usuarios 
                       WHERE usuarios.username='" . $_COOKIE['username'] . "' AND usuarios.password='" . $_COOKIE['password'] . "' AND usuarios.fecha_eliminacion IS NULL";
         $resultLogin = mysqli_query($conn, $sqlLogin);
         if (mysqli_num_rows($resultLogin) === 1) {

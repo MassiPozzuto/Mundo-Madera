@@ -2,8 +2,8 @@
 require('../../includes/config.php');
 
 $sqlProducts = "SELECT p.*, c.tipo 
-                        FROM productos p
-                        INNER JOIN categorias c ON c.id = p.id_categoria";
+                    FROM productos p
+                    INNER JOIN categorias c ON c.id = p.id_categoria";
 $stmtProducts = mysqli_query($conn, $sqlProducts);
 $rowProducts = mysqli_fetch_all($stmtProducts, MYSQLI_ASSOC);
 

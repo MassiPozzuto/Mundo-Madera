@@ -9,6 +9,11 @@ button{
 	padding: 10px;
 	cursor: pointer;
 }
+
+h3 {
+	margin: 0;
+}
+
 .main-container{
 	display: flex;
 	flex-direction: column;
@@ -142,46 +147,39 @@ select{
 
 
 
-
-.grid-container {
-	display: grid;
-	grid-template-columns: auto auto auto auto auto auto;
-	gap: 3px;
+/* ESTILOS TABLAS */
+.container__table {
 	margin: 20px 0;
+	text-align: center;
 }
 
-.grid-item, .grid-header {
-	display: flex;
-    justify-content: center;
-    align-items: center;
+.container__table-celd {
 	border: 1px solid #ddd;
 	padding: 10px;
 }
 
-.grid-header {
+.container__table-head {	
 	background-color: #f2f2f2;
-	font-weight: bold;
+	font-weight: 600;
 }
 
-.item-options {
-	justify-content: space-around;
+.celd-options {
+	display: flex;
+    align-items: center;
+	justify-content: space-evenly;
 }
-
-.item-options button {
+.celd-options button {
 	border: 0;
     padding: 5px;
     border-radius: 50%;
 }
-
-.item-options button:hover {
+.celd-options button:hover {
     background: #D3D3D3;
 }
-
 .btn-delete {
 	color: red;
 }
-
-
+/* FIN ESTILOS TABLAS */
 
 
 
@@ -215,10 +213,8 @@ select{
 
 .modal-info {
     display: flex;
-    flex-direction: column;
-    align-items: start;
-    justify-content: center;
-    gap: 10px;
+    align-items: center;
+    justify-content: space-between;
 }
     .modal-info h3,
     .modal-info p {
@@ -238,14 +234,17 @@ select{
 	width: 100%;
 }
 
-input,
-select {
+input {
 	outline: 0;
 	box-shadow: none;
     border: 1px solid #D5D5D5;
     border-radius: 0.25rem;
     padding: 11px;
     font-size: 15px;
+}
+
+input:focus {
+	border-color: #B7B7B7;
 }
 
 
@@ -298,41 +297,82 @@ select {
         background-color: #71BC00;
     }
 
+.btn-close-x {
+	border: 0;
+    padding: 3px;
+    background: inherit;
+    border-radius: 50%;
+}
+.btn-close-x:hover {
+    background: #D3D3D3;
+}
 
-
-	.modal__preview-img {
-		display: none;
-		position: relative;
-		max-width: 200px;
-	  }
-  
-	  .preview__img {
-		max-width: 100%;
-		height: auto;		
-		border-radius: 0.25rem;
-
-	  }
-  
-	  .btn__remove-img {
-		position: absolute;
-		border: 0;
-		top: 5px;
-		right: 5px;
-		padding: 3px 5px;
-		color: #fff;
-		background-color: rgba(0, 0, 0, 0.5);
-		border-radius: 50%;
-	  }
-
-
-	.errormessage__form {
-		display: none;
-		font-size: 13px;
-		color: red;
-		margin: 3px 3px 0 3px;
+.modal__preview-img {
+	display: none;
+	position: relative;
+	max-width: 200px;
 	}
 
-	.modal-input-group.fail input,
-	.modal-input-group.fail select {
-		border: 1px solid red;
+	.preview__img {
+	max-width: 100%;
+	height: auto;		
+	border-radius: 0.25rem;
+
 	}
+
+	.btn__remove-img {
+	position: absolute;
+	border: 0;
+	top: 5px;
+	right: 5px;
+	padding: 3px 5px;
+	color: #fff;
+	background-color: rgba(0, 0, 0, 0.5);
+	border-radius: 50%;
+	}
+
+
+.errormessage__form {
+	display: none;
+	font-size: 13px;
+	color: red;
+	margin: 3px 3px 0 3px;
+}
+
+.modal-input-group.fail input,
+.modal-input-group.fail select {
+	border: 1px solid red;
+}
+
+
+
+/*
+
+.grid-container {
+  display: grid;
+  grid-template-columns: repeat(6, 1fr);
+  gap: 8px;
+}
+
+.grid-row {
+  display: grid;
+  grid-template-columns: repeat(6, 1fr);
+  gap: 8px;
+  background-color: #f1f1f1;
+  border: 1px solid #ddd;
+}
+
+.grid-header {
+  background-color: #4CAF50;
+  color: white;
+}
+
+.grid-item {
+  padding: 8px;
+}
+
+.item-options {
+  display: flex;
+  justify-content: space-between;
+}
+*/
