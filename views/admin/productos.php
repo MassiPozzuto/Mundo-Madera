@@ -1,3 +1,67 @@
+<!-- CONTENIDO -->
+<div class="main-container">
+    <div class="container__page-title">
+        <h2 class="page__title">Todos los productos</h2>
+        <button type="button" class="btn-add" id="btn__open-new__product" title="Agregar">
+            <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-plus" width="20" height="20" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+                <path d="M12 5l0 14"></path>
+                <path d="M5 12l14 0"></path>
+            </svg>
+        </button>
+    </div>
+
+    <table class="container__table">
+        <thead class="container__table-head">
+            <tr class="container__table-row row-head">
+                <th class="container__table-celd ">Código</th>
+                <th class="container__table-celd ">Categoría</th>
+                <th class="container__table-celd ">Nombre</th>
+                <th class="container__table-celd ">Precio</th>
+                <th class="container__table-celd ">Stock</th>
+                <th class="container__table-celd ">Opciones</th>
+            </tr>
+        </thead>
+
+        <tbody class="container__table-body">
+            <?php
+            foreach ($rowProducts as $key => $product) { ?>
+
+                <tr class="container__table-row row-normal">
+                    <td class="container__table-celd "><?php echo $product['id'] ?></td>
+                    <td class="container__table-celd "><?php echo $product['tipo'] ?></td>
+                    <td class="container__table-celd "><?php echo $product['nombre'] ?></td>
+                    <td class="container__table-celd "><span>$<?php echo $product['precio'] ?></td>
+                    <td class="container__table-celd "><span><?php echo $product['stock'] ?></td>
+                    <td class="container__table-celd  celd-options">
+                        <button type="button" class="btn-update btn__update-product" id="update__product-<?php echo $product['id'] ?>" title="Editar">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-edit" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                                <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+                                <path d="M7 7h-1a2 2 0 0 0 -2 2v9a2 2 0 0 0 2 2h9a2 2 0 0 0 2 -2v-1"></path>
+                                <path d="M20.385 6.585a2.1 2.1 0 0 0 -2.97 -2.97l-8.415 8.385v3h3l8.385 -8.415z"></path>
+                                <path d="M16 5l3 3"></path>
+                            </svg>
+                        </button>
+                        <button type="button" class="btn-delete btn__delete-product" id="delete__product-<?php echo $product['id'] ?>" title="Eliminar">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-trash" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                                <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+                                <path d="M4 7l16 0"></path>
+                                <path d="M10 11l0 6"></path>
+                                <path d="M14 11l0 6"></path>
+                                <path d="M5 7l1 12a2 2 0 0 0 2 2h8a2 2 0 0 0 2 -2l1 -12"></path>
+                                <path d="M9 7v-3a1 1 0 0 1 1 -1h4a1 1 0 0 1 1 1v3"></path>
+                            </svg>
+                        </button>
+                    </td>
+                </tr>
+            <?php
+            } ?>
+        </tbody>
+    </table>
+</div>
+
+
+<!-- MODAL AGREGAR PRODUCTOS -->
 <div class="modal" id="modal__new-product">
     <div class="modal-content">
         <div class="modal-info">
@@ -33,7 +97,7 @@
             <p class="errormessage__form"></p>
         </div>
         <div class="modal-input-group input-group-img fail">
-            <button type="button" class="" id="btn-open-file">
+            <button type="button" class="btn__add-img" id="new__product-add-img">
                 <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-camera-plus" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
                     <path stroke="none" d="M0 0h24v24H0z" fill="none" />
                     <path d="M12 20h-7a2 2 0 0 1 -2 -2v-9a2 2 0 0 1 2 -2h1a2 2 0 0 0 2 -2a1 1 0 0 1 1 -1h6a1 1 0 0 1 1 1a2 2 0 0 0 2 2h1a2 2 0 0 1 2 2v3.5" />
@@ -43,7 +107,7 @@
                 </svg>
                 <span>Agregar imagen ilustrativa</span>
             </button>
-            <input type="file" id="new__product-img" class="modal-input" accept="image/jpeg,image/png,image/webp" hidden>
+            <input type="file" id="new__product-img" class="modal-input input__file-img" accept="image/jpeg,image/png,image/webp" hidden>
             <div class="modal__preview-img">
                 <img class="preview__img" alt="Preview" id="new__product-preview-img">
                 <button type="button" class="btn__remove-img" id="new__product-delete-img">
@@ -63,6 +127,8 @@
     </div>
 </div>
 
+
+<!-- MODAL EDITAR PRODUCTOS -->
 <div class="modal" id="modal__update-product">
     <div class="modal-content">
         <div class="modal-info">
@@ -101,7 +167,7 @@
             <p class="errormessage__form"></p>
         </div>
         <div class="modal-input-group input-group-img fail">
-            <button type="button" class="" id="btn-open-file">
+            <button type="button" class="btn__add-img" id="update__product-add-img">
                 <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-camera-plus" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
                     <path stroke="none" d="M0 0h24v24H0z" fill="none" />
                     <path d="M12 20h-7a2 2 0 0 1 -2 -2v-9a2 2 0 0 1 2 -2h1a2 2 0 0 0 2 -2a1 1 0 0 1 1 -1h6a1 1 0 0 1 1 1a2 2 0 0 0 2 2h1a2 2 0 0 1 2 2v3.5" />
@@ -111,7 +177,7 @@
                 </svg>
                 <span>Agregar imagen ilustrativa</span>
             </button>
-            <input type="file" id="update__product-img" class="modal-input" accept="image/jpeg,image/png,image/webp" hidden>
+            <input type="file" id="update__product-img" class="modal-input input__file-img" accept="image/jpeg,image/png,image/webp" hidden>
             <div class="modal__preview-img">
                 <img class="preview__img" alt="Preview" id="update__product-preview-img">
                 <button type="button" class="btn__remove-img" id="update__product-delete-img">
@@ -131,117 +197,4 @@
     </div>
 </div>
 
-
-<div class="main-container">
-    <div class="container__page-title">
-        <h2 class="page__title">Productos actuales</h2>
-        <button type="button" class="btn-add" id="btn__open-new__product" title="Agregar">
-            <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-plus" width="20" height="20" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
-                <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
-                <path d="M12 5l0 14"></path>
-                <path d="M5 12l14 0"></path>
-            </svg>
-        </button>
-    </div>
-
-    <table class="container__table">
-        <thead class="container__table-head">
-            <tr class="container__table-row row-head">
-                <th class="container__table-celd ">Código</th>
-                <th class="container__table-celd ">Categoría</th>
-                <th class="container__table-celd ">Nombre</th>
-                <th class="container__table-celd ">Precio</th>
-                <th class="container__table-celd ">Stock</th>
-                <th class="container__table-celd ">Eliminado</th>
-                <th class="container__table-celd ">Opciones</th>
-            </tr>
-        </thead>
-
-        <tbody class="container__table-body">
-            <?php
-            foreach ($rowProducts as $key => $product) { ?>
-
-                <tr class="container__table-row row-normal">
-                    <td class="container__table-celd "><?php echo $product['id'] ?></td>
-                    <td class="container__table-celd "><?php echo $product['tipo'] ?></td>
-                    <td class="container__table-celd "><?php echo $product['nombre'] ?></td>
-                    <td class="container__table-celd "><span>$<?php echo $product['precio'] ?></td>
-                    <td class="container__table-celd "><span><?php echo $product['stock'] ?></td>
-                    <td class="container__table-celd "><span><?php echo ($product['fecha_eliminacion'] == null) ? "No" : "Sí" ?></td>
-                    <td class="container__table-celd  celd-options">
-                        <button type="button" class="btn-update btn__update-product" id="update__product-<?php echo $product['id'] ?>" title="Editar">
-                            <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-edit" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
-                                <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
-                                <path d="M7 7h-1a2 2 0 0 0 -2 2v9a2 2 0 0 0 2 2h9a2 2 0 0 0 2 -2v-1"></path>
-                                <path d="M20.385 6.585a2.1 2.1 0 0 0 -2.97 -2.97l-8.415 8.385v3h3l8.385 -8.415z"></path>
-                                <path d="M16 5l3 3"></path>
-                            </svg>
-                        </button>
-                        <button type="button" class="btn-delete btn__delete-product" id="delete__product-<?php echo $product['id'] ?>" title="Eliminar">
-                            <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-trash" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
-                                <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
-                                <path d="M4 7l16 0"></path>
-                                <path d="M10 11l0 6"></path>
-                                <path d="M14 11l0 6"></path>
-                                <path d="M5 7l1 12a2 2 0 0 0 2 2h8a2 2 0 0 0 2 -2l1 -12"></path>
-                                <path d="M9 7v-3a1 1 0 0 1 1 -1h4a1 1 0 0 1 1 1v3"></path>
-                            </svg>
-                        </button>
-                    </td>
-                </tr>
-            <?php
-            } ?>
-        </tbody>
-    </table>
-</div>
-
 <script type="text/javascript" src="../../js/products.js"></script>
-
-<script type="text/javascript">
-    /*function edit_product(codpro) {
-        let fd = new FormData();
-        fd.append('codpro', codpro);
-        let request = new XMLHttpRequest();
-        request.open('POST', '../../api/get_product.php', true);
-        request.onload = function() {
-            if (request.readyState == 4 && request.status == 200) {
-                let response = JSON.parse(request.responseText);
-                console.log(response);
-                document.getElementById("codigo-e").value = codpro;
-                document.getElementById("nombre-e").value = response.product.nompro;
-                document.getElementById("stock-e").value = response.product.despro;
-                document.getElementById("precio-e").value = response.product.prepro;
-                document.getElementById("cat-e").value = response.product.estado;
-                show_modal('modal-producto-edit');
-                //imagen-e
-            }
-        }
-        request.send(fd);
-    }
-
-    function update_producto() {
-        let fd = new FormData();
-        fd.append('codigo', document.getElementById('codigo-e').value);
-        fd.append('nombre', document.getElementById('nombre-e').value);
-        fd.append('descripcion', document.getElementById('descripcion-e').value);
-        fd.append('precio', document.getElementById('precio-e').value);
-        fd.append('estado', document.getElementById('estado-e').value);
-        fd.append('imagen', document.getElementById('imagen-e').files[0]);
-        fd.append('rutimapro', document.getElementById("rutimapro-aux").value);
-        let request = new XMLHttpRequest();
-        request.open('POST', 'api/producto_update.php', true);
-        request.onload = function() {
-            if (request.readyState == 4 && request.status == 200) {
-                let response = JSON.parse(request.responseText);
-                console.log(response);
-                if (response.state) {
-                    alert("Producto actualizado");
-                    window.location.reload();
-                } else {
-                    alert(response.detail);
-                }
-            }
-        }
-        request.send(fd);
-    }*/
-</script>
