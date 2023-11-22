@@ -55,7 +55,7 @@ if (!empty($_POST)) {
 }
 
 
-$page = "Iniciar sesión";
+$title = "Iniciar sesión";
 $section = "login";
 require_once "../../views/admin/layout.php";
 ?>

@@ -1,5 +1,7 @@
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@100;200;300;400;500;600;700;800;900&display=swap');
+
 * {
-    font-family: 'Open Sans', sans-serif;
+    font-family: 'Montserrat', sans-serif;
     margin: 0;
     padding: 0;
     box-sizing: border-box;
@@ -85,12 +87,14 @@ header {
     /*letter-spacing: 1px;*/
 }
 
-.header__menu-item a i {
-    padding: 5px 8px;
+.header__menu-item a div {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 8px 8px;
     border-radius: 0.25rem;
     background-color: #265834;
 }
-
 
 
 .container_header{
@@ -140,19 +144,19 @@ header {
 /* ESTILOS SELECT2 */
 .select2-container {
     width: 100% !important;
-    text-align: start !important;
+    text-align: start;
 }
 
 .select2-selection {
     height: auto !important;
     border-color: #D5D5D5 !important;
-    outline: 0 !important;
+    outline: 0;
 }
 
 .select2-selection__rendered {
     padding: 11px !important; 
     line-height: inherit !important;
-    font-size: 15px !important;
+    font-size: 15px;
 }
 
 .select2-selection__arrow {
@@ -163,12 +167,12 @@ header {
 
 
 .select2-dropdown {
-    border-color: #B7B7B7 !important;
+    border-color: #B7B7B7;
 }
 
 .select2-search__field {
     border-color: #D5D5D5 !important;
-    outline: 0 !important;
+    outline: 0;
 }
 
 .select2-container--default .select2-results__option--selected {

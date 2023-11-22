@@ -2,7 +2,7 @@
 require('../../includes/config.php');
 
 
-$page = "Pedidos";
+$title = "Pedidos";
 $section = "pedidos";
 require_once "../../views/admin/layout.php";
 ?>

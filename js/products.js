@@ -17,7 +17,7 @@ $('.select-category').select2({
 });
 //AGREGAR CATEGORIAS DINAMICAMENTE
 const selectsCategory = document.querySelectorAll('.select-category')
-axios.post('../../api/get_categories.php')
+axios.post('../../api/products/get_categories.php')
     .then(response => {
         // Manejar la respuesta exitosa aquí
         selectsCategory.forEach(selectCategory => {
@@ -71,6 +71,80 @@ function clearModals(typeModal) {
     document.getElementById(`${typeModal}-preview-img`).src = '';
     document.getElementById(`${typeModal}-img`).value = '';
 }
+
+// Encuentra el contenedor de tabla o el elemento más cercano que esté presente desde el principio
+var tableBody = document.getElementById('table_body');
+
+// Agrega un escuchador de eventos al contenedor
+tableBody.addEventListener('click', function (event) {
+    // Buscar el botón padre, que debería ser el botón de actualización o eliminación
+    var button = event.target.closest('.btn__update-product, .btn__delete-product');
+    
+    if (button) {
+        const idProduct = button.id.split("-")[1]
+        var formData = new FormData();
+        formData.append('id', idProduct);
+
+        // Verifica si el clic se hizo en un botón de actualizacion o de eliminacion
+        if (button.classList.contains('btn__update-product')) {
+            //ABRIR MODAL DE ACTUALIZAR PRODUCTO, REEMPLAZANDO SU CONTENIDO SEGUN EL PRODUCTO SELECCIONADO
+            axios.post('../../api/products/get_product.php', formData)
+                .then(response => {
+                    // Manejar la respuesta exitosa aquí
+                    console.log(response.data)
+
+                    if (response.data.success) {
+                        //Reemplazo todos los datos normales
+                        document.getElementById('update__product-id').value = response.data.product.id
+                        document.getElementById('update__product-name').value = response.data.product.nombre
+                        document.getElementById('update__product-stock').value = response.data.product.stock
+                        document.getElementById('update__product-price').value = response.data.product.precio
+                        // Reemplazo el valor del select2
+                        $('#update__product-cat').val(response.data.product.id_categoria).trigger('change');
+
+                        //Reemplazo la imagen si existe
+                        if (response.data.product.rutaImg != null) {
+                            document.getElementById('update__product-preview-img').parentNode.style.display = 'block';
+                            document.getElementById('update__product-preview-img').src = `../${response.data.product.rutaImg}`;
+                        } else {
+                            document.getElementById('update__product-preview-img').parentNode.style.display = 'none';
+                            document.getElementById('update__product-preview-img').src = '';
+                        }
+                        document.getElementById('update__product-img').value = '';
+
+                        document.getElementById('modal__update-product').style.display = "block";
+                    } else {
+                        alertMsj(response.data.error, 'error')
+                    }
+                })
+                .catch(error => {
+                    alertMsj('Ocurrió un error inesperado. Intentelo más tarde', 'error')
+                    console.log("Error atrapado:", error);
+                });
+            
+        } else if (button.classList.contains('btn__delete-product')) {
+            //ELIMINAR PRODUCTO
+            axios.post('../../api/products/delete_product.php', formData)
+                .then(response => {
+                    // Manejar la respuesta exitosa aquí
+                    console.log(response.data)
+
+                    if (response.data.success) {
+                        //Producto eliminado correctamente
+                        alertMsj(response.data.msj, 'success')
+                    } else {
+                        //No se pudo eliminar el producto
+                        alertMsj(response.data.msj, 'error')
+                    }
+                })
+                .catch(error => {
+                    alertMsj('Ocurrió un error inesperado. Intentelo más tarde', 'error')
+                    console.log("Error atrapado:", error);
+                });
+        }
+    }
+});
+
 
 
 //ABRIR MODAL DE NUEVO PRODUCTO
@@ -151,7 +225,7 @@ document.getElementById('new__product-submit').addEventListener('click', (e) => 
         formData.append('price', price.value);
         formData.append('img', img.files[0]);
 
-        axios.post('../../api/producto_save.php', formData)
+        axios.post('../../api/products/create_product.php', formData)
             .then(response => {
                 // Manejar la respuesta exitosa aquí
                 console.log(response.data)
@@ -181,51 +255,6 @@ document.getElementById('new__product-submit').addEventListener('click', (e) => 
 
 })
 
-
-//ABRIR MODALS DE ACTUALIZAR PRODUCTOS, REEMPLAZANDO SU CONTENIDO SEGUN EL PRODUCTO SELECCIONADO
-var btnsUpdate = document.querySelectorAll('.btn__update-product')
-btnsUpdate.forEach(btnUpdate => {
-    btnUpdate.addEventListener('click', () => {
-        const idProduct = btnUpdate.id.split("-")[1]
-        
-        var formData = new FormData();
-        formData.append('id', idProduct);
-
-        axios.post('../../api/get_product.php', formData)
-            .then(response => {
-                // Manejar la respuesta exitosa aquí
-                console.log(response.data)
-
-                if (response.data.success) {
-                    //Reemplazo todos los datos normales
-                    document.getElementById('update__product-id').value = response.data.product.id
-                    document.getElementById('update__product-name').value = response.data.product.nombre
-                    document.getElementById('update__product-stock').value = response.data.product.stock
-                    document.getElementById('update__product-price').value = response.data.product.precio
-                    // Reemplazo el valor del select2
-                    $('#update__product-cat').val(response.data.product.id_categoria).trigger('change');
-    
-                    //Reemplazo la imagen si existe
-                    if (response.data.product.rutaImg != null){
-                        document.getElementById('update__product-preview-img').parentNode.style.display = 'block';
-                        document.getElementById('update__product-preview-img').src = `../${response.data.product.rutaImg}`;
-                    } else {
-                        document.getElementById('update__product-preview-img').parentNode.style.display = 'none';
-                        document.getElementById('update__product-preview-img').src = '';
-                    }
-                    document.getElementById('update__product-img').value = '';
-    
-                    document.getElementById('modal__update-product').style.display = "block";                    
-                } else {
-                    alertMsj(response.data.error, 'error')
-                }
-            })
-            .catch(error => {
-                alertMsj('Ocurrió un error inesperado. Intentelo más tarde', 'error')
-                console.log("Error atrapado:", error);
-            });
-    })
-})
 //ACTUALIZAR DATOS DEL PRODUCTO
 document.getElementById('update__product-submit').addEventListener('click', (e) => { 
     const id = document.getElementById('update__product-id');
@@ -244,13 +273,21 @@ document.getElementById('update__product-submit').addEventListener('click', (e) 
         formData.append('price', newPrice.value);
         formData.append('img', newImg.files[0]);
 
-        axios.post('../../api/producto_update.php', formData)
+        axios.post('../../api/products/update_product.php', formData)
             .then(response => {
                 // Manejar la respuesta exitosa aquí
                 console.log(response.data)
                 if (response.data.success) {
-                    location.reload();
+                    //location.reload();
+                    alertMsj('El producto fue editado correctamente', 'success')
 
+                    let rowProduct = document.getElementById(`row__product-${id.value}`)
+                    rowProduct.querySelector('.celd-type').innerText = newCategory.options[newCategory.selectedIndex].innerText
+                    rowProduct.querySelector('.celd-name').innerText = newName.value
+                    rowProduct.querySelector('.celd-price').innerText = "$" + newPrice.value
+                    rowProduct.querySelector('.celd-stock').innerText = newStock.value
+
+                    document.getElementById('modal__update-product').style.display = 'none'
                 } else {
                     successValidation(newCategory)
                     successValidation(newName)
@@ -272,37 +309,6 @@ document.getElementById('update__product-submit').addEventListener('click', (e) 
             });
     }
 })
-
-//ELIMINAR PRODUCTOS
-var btnsDelete = document.querySelectorAll('.btn__delete-product')
-btnsDelete.forEach(btnDelete => {
-    btnDelete.addEventListener('click', () => {
-        const idProduct = btnDelete.id.split("-")[1]
-        console.log(idProduct)
-
-        var formData = new FormData();
-        formData.append('id', idProduct);
-
-        axios.post('../../api/delete_product.php', formData)
-            .then(response => {
-                // Manejar la respuesta exitosa aquí
-                console.log(response.data)
-
-                if (response.data.success) {
-                    //Producto eliminado correctamente
-                    alertMsj(response.data.msj, 'success')
-                } else {
-                    //No se pudo eliminar el producto
-                    alertMsj(response.data.msj, 'error')
-                }
-            })
-            .catch(error => {
-                alertMsj('Ocurrió un error inesperado. Intentelo más tarde', 'error')
-                console.log("Error atrapado:", error);
-            });
-    })
-})
-
 
 
 

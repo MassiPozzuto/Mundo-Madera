@@ -1,7 +1,7 @@
 <?php
 
-require("../includes/config.php");
-require("../includes/functions.php");
+require("../../includes/config.php");
+require("../../includes/functions.php");
 
 header("Content-Type: application/json; charset=utf-8");
 

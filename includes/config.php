@@ -1,8 +1,9 @@
 <?php
 date_default_timezone_set('America/Argentina/Buenos_Aires');
 
-$conn = mysqli_connect("localhost", "root", "", "mundo-madera");
+define('CANT_REG_PAG', 5);
 
+$conn = mysqli_connect("localhost", "root", "", "mundo-madera");
 if(!$conn){
     echo "La conexion no se pudo establecer.<br />";
     die(print_r(mysqli_connect_error()));
@@ -25,5 +26,6 @@ if(!isset($_SESSION['user'])){
 
 }
 
-
+// Change character set to utf8
+mysqli_set_charset($conn, "utf8");
 ?>

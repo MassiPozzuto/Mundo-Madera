@@ -1,7 +1,7 @@
 <?php
 require('../../includes/config.php');
 
-$page = "Categorias";
+$title = "Categorias";
 $section = "categorias";
 require_once "../../views/admin/layout.php";
 ?>
