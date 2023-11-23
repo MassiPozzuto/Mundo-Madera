@@ -1,9 +1,9 @@
 <?php
 
 // Función para obtener la ruta de la imagen del producto
-function productImgPath($productId)
+function productImgPath($productId, $position = "../")
 {
-    $dir = "../img/products/{$productId}";
+    $dir = "{$position}img/products/{$productId}";
     // Verifica si el directorio existe
     if (!is_dir($dir)) {
         return null;

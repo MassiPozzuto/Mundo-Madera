@@ -34,12 +34,12 @@ if ($nombre == null) {
 	$errors['update__product-name'] = "Debe ingresar un nombre menor a 50 caracteres.";
 }
 
-if ($stock == null || $stock < 0 || $stock > 2147483647) {
+if ($stock < 0|| $stock > 2147483647) {
 	$isValid = false;
 	$errors['update__product-stock'] = "Debe ingresar una cantidad de stock válida.";
 }
 
-if ($precio == null || $precio < 0 || $precio > 2147483647) {
+if ($precio < 0 || $precio > 2147483647) {
 	$isValid = false;
 	$errors['update__product-price'] = "Debe ingresar un precio válido.";
 }
@@ -75,7 +75,7 @@ try {
 
 	if (!empty($_FILES)) {
 		// Subir la foto
-		$dir = '../img/products/' . $id;
+		$dir = '../../img/products/' . $id;
 		if (!is_dir($dir)) {
 			mkdir($dir);
 		} else {

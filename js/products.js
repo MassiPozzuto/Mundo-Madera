@@ -1,3 +1,5 @@
+const urlParams = new URLSearchParams(window.location.search);
+
 
 const allowedTypes = ['image/jpeg', 'image/png', 'image/webp'];
 const maxSize = 5 * 1024 * 1024; // 5 MB en bytes
@@ -15,35 +17,6 @@ $('.select-category').select2({
         return $.fn.select2.defaults.defaults.matcher(params, data);
     }
 });
-//AGREGAR CATEGORIAS DINAMICAMENTE
-const selectsCategory = document.querySelectorAll('.select-category')
-axios.post('../../api/products/get_categories.php')
-    .then(response => {
-        // Manejar la respuesta exitosa aquí
-        selectsCategory.forEach(selectCategory => {
-            // Crear un nuevo elemento option
-            var optionDefault = document.createElement('option');
-            optionDefault.value = 0;
-            optionDefault.hidden = true;
-            optionDefault.disabled = true;
-            optionDefault.selected = true;
-            optionDefault.text = "Selecciona una categoría";
-            selectCategory.appendChild(optionDefault);
-
-            response.data.forEach(category => {
-                var optionCategory = document.createElement('option');
-                optionCategory.value = category.id;
-                optionCategory.text = category.tipo;
-                selectCategory.appendChild(optionCategory);
-            })
-            
-        });
-    })
-    .catch(error => {
-        alertMsj('Ocurrió un error inesperado. Intentelo más tarde', 'error')
-        console.log("Error atrapado:", error);
-    });
-
 
 //CERRAR MODALS
 var modalsClose = document.querySelectorAll('.modal-close')
@@ -105,7 +78,7 @@ tableBody.addEventListener('click', function (event) {
                         //Reemplazo la imagen si existe
                         if (response.data.product.rutaImg != null) {
                             document.getElementById('update__product-preview-img').parentNode.style.display = 'block';
-                            document.getElementById('update__product-preview-img').src = `../${response.data.product.rutaImg}`;
+                            document.getElementById('update__product-preview-img').src = `${response.data.product.rutaImg}`;
                         } else {
                             document.getElementById('update__product-preview-img').parentNode.style.display = 'none';
                             document.getElementById('update__product-preview-img').src = '';
@@ -132,6 +105,31 @@ tableBody.addEventListener('click', function (event) {
                     if (response.data.success) {
                         //Producto eliminado correctamente
                         alertMsj(response.data.msj, 'success')
+
+                        if (response.data.success) {
+                            if (response.data.action == 'delete') {
+                                //Si la accion fue eliminar el producto
+                                button.classList.add('deleted')
+                                button.innerHTML =
+                                    `<svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-arrow-back-up" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                                        <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+                                        <path d="M9 14l-4 -4l4 -4" />
+                                        <path d="M5 10h11a4 4 0 1 1 0 8h-1" />
+                                    </svg>`
+                            } else {
+                                //Si la accion fue recuperar el producto
+                                button.classList.remove('deleted')
+                                button.innerHTML =
+                                    `<svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-trash" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                                        <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+                                        <path d="M4 7l16 0"></path>
+                                        <path d="M10 11l0 6"></path>
+                                        <path d="M14 11l0 6"></path>
+                                        <path d="M5 7l1 12a2 2 0 0 0 2 2h8a2 2 0 0 0 2 -2l1 -12"></path>
+                                        <path d="M9 7v-3a1 1 0 0 1 1 -1h4a1 1 0 0 1 1 1v3"></path>
+                                    </svg>`
+                            }
+                        }
                     } else {
                         //No se pudo eliminar el producto
                         alertMsj(response.data.msj, 'error')
@@ -308,6 +306,48 @@ document.getElementById('update__product-submit').addEventListener('click', (e) 
                 console.log("Error atrapado:", error);
             });
     }
+})
+
+
+//CAMBIAR PARAMETRO DE VER O NO PRODUCTOS ELIMINADOS
+document.getElementById('check-allow-deleted').addEventListener('click', (e) => {
+    var newUrl;
+    if (e.target.checked) {
+        //Desea ver los eliminados
+        urlParams.set('allowDeleted', 'yes')
+        newUrl = `${window.location.pathname}?${urlParams.toString()}`;
+    } else {
+        //No desea ver los eliminados
+        urlParams.set('allowDeleted', 'no')
+        newUrl = `${window.location.pathname}?${urlParams.toString()}`;
+    }
+
+    window.location.href = newUrl;
+})
+//CAMBIAR PARAMETRO DE FILTROS POR CATEGORIA
+var btnsFilterBy = document.querySelectorAll('.filter__by-item')
+btnsFilterBy.forEach(btnFilterBy => {
+    btnFilterBy.addEventListener('click', () => {
+        filterBy = btnFilterBy.id.split("-")[1]
+        
+        urlParams.set('filterBy', filterBy)
+        var newUrl = `${window.location.pathname}?${urlParams.toString()}`;
+        
+        window.location.href = newUrl;
+    })
+})
+//CAMBIAR PARAMETRO DE LA PAGINA ACTUAL
+var btnsPaginator = document.querySelectorAll('.btn__paginator')
+btnsPaginator.forEach(btnPaginator => {
+    btnPaginator.addEventListener('click', () => {
+        newPage = btnPaginator.id.split("-")[1]
+
+        console.log(newPage)
+        urlParams.set('page', newPage)
+        var newUrl = `${window.location.pathname}?${urlParams.toString()}`;
+
+        window.location.href = newUrl;
+    })
 })
 
 

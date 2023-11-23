@@ -25,10 +25,10 @@
   <!-- CSS -->
   <link href="../../css/main.css" rel="stylesheet">
   <link rel="stylesheet" type="text/css" href="../../css/styleadm.css">
-  <?php 
-  if($section ==  'login') { ?>
+  <?php
+  if ($section ==  'login') { ?>
     <link href="../../css/<?php echo $section; ?>.css" rel="stylesheet">
-  <?php 
+  <?php
   } ?>
   <!-- AXIOS -->
   <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
@@ -80,7 +80,7 @@
             </a>
           </li>
           <li class="header__menu-item item-products <?php echo ($section == "productos") ? "active" : null; ?>">
-            <a href="productos.php">
+            <a href="productos.php?page=1&filterBy=all&allowDeleted=no">
               <div>
                 <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-shopping-cart" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
                   <path stroke="none" d="M0 0h24v24H0z" fill="none" />

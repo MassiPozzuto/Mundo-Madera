@@ -14,9 +14,11 @@
 
     <div class="container__submenu">
         <div class="submenu__search-bar">
-            <form method="GET" class="container__search-bar" action="#">
-                <input b-o7ixf1u0y3="" type="search" name="search" placeholder="Buscar...">
-                <button b-o7ixf1u0y3="" type="submit">
+            <form method="GET" class="container__search-bar" action="">
+                <input type="search" name="search" placeholder="Buscar..." value="<?php echo (isset($_GET['search'])) ? $_GET['search'] : null; ?>">
+                <input type="text" name="filterBy" value="<?php echo $_GET['filterBy'] ?>" hidden>
+                <input type="text" name="allowDeleted" value="<?php echo $_GET['allowDeleted'] ?>" hidden>
+                <button type="submit">
                     <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-search" width="20" height="20" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
                         <path stroke="none" d="M0 0h24v24H0z" fill="none" />
                         <path d="M10 10m-7 0a7 7 0 1 0 14 0a7 7 0 1 0 -14 0" />
@@ -28,27 +30,27 @@
 
         <div class="submenu__filter-by">
             <span>Filtrar por </span>
-            <div class="dropdown">
+            <div class="dropdown dropdown__filter-by">
                 <button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
-                    Todos
+                    <?php
+                    $filterByCategory = array_search($_GET['filterBy'], array_column($categories, 'id'));
+                    echo ($_GET['filterBy'] != 'all') ? $categories[$filterByCategory]['tipo']: 'Todos'; 
+                    ?>
                 </button>
                 <ul class="dropdown-menu">
-                    <li><a class="dropdown-item" href="#">Todos</a></li>
-                    <li><a class="dropdown-item" href="#">Roble</a></li>
-                    <li><a class="dropdown-item" href="#">Cedro</a></li>
-                    <li><a class="dropdown-item" href="#">Pino</a></li>
+                    <li><button type="button" class="dropdown-item filter__by-item" id="filter_by-all">Todos</button></li>
+
+                    <?php
+                    foreach ($categories as $key => $category) { ?>
+                        <li><button type="button" class="dropdown-item filter__by-item" id="filter_by-<?php echo $category['id'] ?>"><?php echo $category['tipo'] ?></button></li>
+                    <?php
+                    } ?>
                 </ul>
             </div>
 
-            <span>Ordenar por </span>
-            <div class="dropdown">
-                <button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
-                    Todos
-                </button>
-                <ul class="dropdown-menu">
-                    <li><a class="dropdown-item" href="#">Todos</a></li>
-                    <li><a class="dropdown-item" href="#">Eliminados</a></li>
-                </ul>
+            <span>Mostrar los eliminados </span>
+            <div class="form-check form-switch">
+                <input type="checkbox" class="form-check-input" id="check-allow-deleted" value="" <?php echo ($_GET['allowDeleted'] == 'yes') ? 'checked' : null; ?>>
             </div>
         </div>
     </div>
@@ -85,16 +87,29 @@
                                 <path d="M16 5l3 3"></path>
                             </svg>
                         </button>
-                        <button type="button" class="btn-delete btn__delete-product" id="delete__product-<?php echo $product['id'] ?>" title="Eliminar">
-                            <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-trash" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
-                                <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
-                                <path d="M4 7l16 0"></path>
-                                <path d="M10 11l0 6"></path>
-                                <path d="M14 11l0 6"></path>
-                                <path d="M5 7l1 12a2 2 0 0 0 2 2h8a2 2 0 0 0 2 -2l1 -12"></path>
-                                <path d="M9 7v-3a1 1 0 0 1 1 -1h4a1 1 0 0 1 1 1v3"></path>
-                            </svg>
-                        </button>
+                        <?php
+                        if ($product['fecha_eliminacion'] == null) { ?>
+                            <button type="button" class="btn-delete btn__delete-product" id="delete__product-<?php echo $product['id'] ?>" title="Eliminar">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-trash" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                                    <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+                                    <path d="M4 7l16 0"></path>
+                                    <path d="M10 11l0 6"></path>
+                                    <path d="M14 11l0 6"></path>
+                                    <path d="M5 7l1 12a2 2 0 0 0 2 2h8a2 2 0 0 0 2 -2l1 -12"></path>
+                                    <path d="M9 7v-3a1 1 0 0 1 1 -1h4a1 1 0 0 1 1 1v3"></path>
+                                </svg>
+                            </button>
+                        <?php
+                        } else { ?>
+                            <button type="button" class="btn-delete deleted btn__delete-product" id="delete__product-<?php echo $product['id'] ?>" title="Recuperar">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-arrow-back-up" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                                    <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+                                    <path d="M9 14l-4 -4l4 -4" />
+                                    <path d="M5 10h11a4 4 0 1 1 0 8h-1" />
+                                </svg>
+                            </button>
+                        <?php
+                        } ?>
                     </td>
                 </tr>
             <?php
@@ -103,41 +118,42 @@
     </table>
 
     <!-- PAGINADOR -->
-    <div id="paginator" class="paginator">
+    <?php
+    if ($total_paginas > 1) { ?>
+        <div id="paginator" class="paginator">
+            <button type="button" id="paginator_page-<?php echo ($page - 1 > 1) ? $page - 1 : 1; ?>" class="btn__paginator btn_navigatigation-page" id="prev-page" class="btn">
+                <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-circle-arrow-left-filled" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                    <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+                    <path d="M12 2a10 10 0 0 1 .324 19.995l-.324 .005l-.324 -.005a10 10 0 0 1 .324 -19.995zm.707 5.293a1 1 0 0 0 -1.414 0l-4 4a1.048 1.048 0 0 0 -.083 .094l-.064 .092l-.052 .098l-.044 .11l-.03 .112l-.017 .126l-.003 .075l.004 .09l.007 .058l.025 .118l.035 .105l.054 .113l.043 .07l.071 .095l.054 .058l4 4l.094 .083a1 1 0 0 0 1.32 -1.497l-2.292 -2.293h5.585l.117 -.007a1 1 0 0 0 -.117 -1.993h-5.586l2.293 -2.293l.083 -.094a1 1 0 0 0 -.083 -1.32z" stroke-width="0" fill="currentColor" />
+                </svg>
+            </button>
+            <div id="page-numbers" class="page-numbers">
+                <button type="button" id="paginator_page-1" class='btn__paginator <?php echo ($page == 1) ? 'active' : null; ?>'>1</button>
 
-        <a href="productos.php?page=<?php echo ($page - 1 > 1) ? $page - 1 : 1; ?>" class="btn__paginator btn_navigatigation-page" id="prev-page" class="btn">
-            <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-circle-arrow-left-filled" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
-                <path stroke="none" d="M0 0h24v24H0z" fill="none" />
-                <path d="M12 2a10 10 0 0 1 .324 19.995l-.324 .005l-.324 -.005a10 10 0 0 1 .324 -19.995zm.707 5.293a1 1 0 0 0 -1.414 0l-4 4a1.048 1.048 0 0 0 -.083 .094l-.064 .092l-.052 .098l-.044 .11l-.03 .112l-.017 .126l-.003 .075l.004 .09l.007 .058l.025 .118l.035 .105l.054 .113l.043 .07l.071 .095l.054 .058l4 4l.094 .083a1 1 0 0 0 1.32 -1.497l-2.292 -2.293h5.585l.117 -.007a1 1 0 0 0 -.117 -1.993h-5.586l2.293 -2.293l.083 -.094a1 1 0 0 0 -.083 -1.32z" stroke-width="0" fill="currentColor" />
-            </svg>
-        </a>
-        <div id="page-numbers" class="page-numbers">
-            <a href="productos.php?page=1" class='btn__paginator <?php echo ($page == 1) ? 'active' : null; ?>'>1</a>
-
-            <?php
-            // Calcular los botones del medio
-            if ($total_paginas > 1) {
+                <?php
+                // Calcular los botones del medio
                 $middle_start = max(2, min($page - 1, $total_paginas - 3));
                 $middle_end = min($middle_start + 2, $total_paginas);
                 for ($i = $middle_start; $i <= $middle_end; $i++) { ?>
-                    <a href="productos.php?page=<?php echo $i ?>" class='<?php echo ($total_paginas <  5 && $i == $middle_end) ? 'last-page' : null; ?> btn__paginator <?php echo ($page == $i) ? 'active' : null; ?>'><?php echo $i ?></a>
-            <?php
-                }
-            } ?>
+                    <button type="button" id="paginator_page-<?php echo $i ?>" class='<?php echo ($total_paginas <  5 && $i == $middle_end) ? 'last-page' : null; ?> btn__paginator <?php echo ($page == $i) ? 'active' : null; ?>'><?php echo $i ?></button>
+                <?php
+                } ?>
 
-            <?php
-            if ($total_paginas > 4) { ?>
-                <a href="productos.php?page=<?php echo $total_paginas ?>" class='last-page btn__paginator <?php echo ($page == $total_paginas) ? 'active' : null; ?>'><?php echo $total_paginas ?></a>
-            <?php
-            } ?>
+                <?php
+                if ($total_paginas > 4) { ?>
+                    <button type="button" id="paginator_page-<?php echo $total_paginas ?>" class='last-page btn__paginator <?php echo ($page == $total_paginas) ? 'active' : null; ?>'><?php echo $total_paginas ?></button>
+                <?php
+                } ?>
+            </div>
+            <button type="button" id="paginator_page-<?php echo ($page + 1 < $total_paginas) ? $page + 1 : $total_paginas; ?>" class="btn__paginator btn_navigatigation-page" id="next-page" class="btn">
+                <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-circle-arrow-right-filled" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                    <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+                    <path d="M12 2l.324 .005a10 10 0 1 1 -.648 0l.324 -.005zm.613 5.21a1 1 0 0 0 -1.32 1.497l2.291 2.293h-5.584l-.117 .007a1 1 0 0 0 .117 1.993h5.584l-2.291 2.293l-.083 .094a1 1 0 0 0 1.497 1.32l4 -4l.073 -.082l.064 -.089l.062 -.113l.044 -.11l.03 -.112l.017 -.126l.003 -.075l-.007 -.118l-.029 -.148l-.035 -.105l-.054 -.113l-.071 -.111a1.008 1.008 0 0 0 -.097 -.112l-4 -4z" stroke-width="0" fill="currentColor" />
+                </svg>
+            </button>
+        <?php
+    } ?>
         </div>
-        <a href="productos.php?page=<?php echo ($page + 1 < $total_paginas) ? $page + 1 : $total_paginas; ?>" class="btn__paginator btn_navigatigation-page" id="next-page" class="btn">
-            <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-circle-arrow-right-filled" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
-                <path stroke="none" d="M0 0h24v24H0z" fill="none" />
-                <path d="M12 2l.324 .005a10 10 0 1 1 -.648 0l.324 -.005zm.613 5.21a1 1 0 0 0 -1.32 1.497l2.291 2.293h-5.584l-.117 .007a1 1 0 0 0 .117 1.993h5.584l-2.291 2.293l-.083 .094a1 1 0 0 0 1.497 1.32l4 -4l.073 -.082l.064 -.089l.062 -.113l.044 -.11l.03 -.112l.017 -.126l.003 -.075l-.007 -.118l-.029 -.148l-.035 -.105l-.054 -.113l-.071 -.111a1.008 1.008 0 0 0 -.097 -.112l-4 -4z" stroke-width="0" fill="currentColor" />
-            </svg>
-        </a>
-    </div>
 </div>
 
 
@@ -157,7 +173,12 @@
         <div class="modal-input-group">
             <label>Categoría</label>
             <select id="new__product-cat" class="modal-input select-category">
-                <!--Se agregan dinamicamente mediante JS-->
+                <option value="0" hidden disabled selected>Selecciona una categoría</option>
+                <?php
+                foreach ($categories as $key => $category) { ?>
+                    <option value="<?php echo $category['id'] ?>"><?php echo $category['tipo'] ?></option>
+                <?php
+                } ?>
             </select>
             <p class="errormessage__form"></p>
         </div>
@@ -227,7 +248,12 @@
         <div class="modal-input-group">
             <label>Categoría</label>
             <select id="update__product-cat" class="modal-input select-category">
-                <!--Se agregan dinamicamente mediante JS-->
+                <option value="0" hidden disabled selected>Selecciona una categoría</option>
+                <?php
+                foreach ($categories as $key => $category) { ?>
+                    <option value="<?php echo $category['id'] ?>"><?php echo $category['tipo'] ?></option>
+                <?php
+                } ?>
             </select>
             <p class="errormessage__form"></p>
         </div>

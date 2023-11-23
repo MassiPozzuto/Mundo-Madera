@@ -79,13 +79,13 @@ try {
 	$productID = mysqli_insert_id($conn);
 
 	// Subir la foto
-	if (!is_dir('../img/products/' . $productID)) {
-		mkdir('../img/products/' . $productID);
+	if (!is_dir('../../img/products/' . $productID)) {
+		mkdir('../../img/products/' . $productID);
 	}
 
 	$fileName = "illustrative_image." . explode('/', $_FILES['img']['type'])[1];
 
-	if (!move_uploaded_file($_FILES['img']['tmp_name'], "../img/products/" . $productID . "/" . $fileName)) {
+	if (!move_uploaded_file($_FILES['img']['tmp_name'], "../../img/products/" . $productID . "/" . $fileName)) {
 		$errors['new__product-img'] = "Error al intentar subir la imagen '$fileName'";
 		throw new Exception('Error al subir imagen');
 	}

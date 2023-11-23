@@ -267,3 +267,8 @@ header {
     }
 }
 /* FIN ESTILOS MENSAJES DE ERROR */
+
+.form-check-input {
+    width: 40px !important;
+    cursor: pointer;
+}

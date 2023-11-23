@@ -18,7 +18,7 @@ $row = mysqli_fetch_assoc($result);
 // Verifica si el producto fue encontrado
 if ($row) {
 	// Agrega la ruta de la imagen al resultado
-	$row['rutaImg'] = productImgPath($_POST['id']);
+	$row['rutaImg'] = productImgPath($_POST['id'], "../../");
 	$message['success'] = true;
 	$message['product'] = $row;
 } else {

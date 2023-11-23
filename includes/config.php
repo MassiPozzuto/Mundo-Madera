@@ -1,7 +1,7 @@
 <?php
 date_default_timezone_set('America/Argentina/Buenos_Aires');
 
-define('CANT_REG_PAG', 5);
+define('CANT_REG_PAG', 30);
 
 $conn = mysqli_connect("localhost", "root", "", "mundo-madera");
 if(!$conn){
