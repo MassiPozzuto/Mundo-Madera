@@ -2,7 +2,7 @@
 <div class="main-container">
     <div class="container__page-title">
         <h2 class="page__title">Todos los productos</h2>
-        <button type="button" class="btn-add" id="btn__open-new__product" title="Agregar">
+        <button type="button" class="btn-add" id="btn__open-create" title="Agregar">
             <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-plus" width="20" height="20" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
                 <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
                 <path d="M12 5l0 14"></path>
@@ -34,7 +34,7 @@
                 <button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
                     <?php
                     $filterByCategory = array_search($_GET['filterBy'], array_column($categories, 'id'));
-                    echo ($_GET['filterBy'] != 'all') ? $categories[$filterByCategory]['tipo']: 'Todos'; 
+                    echo ($_GET['filterBy'] != 'all') ? $categories[$filterByCategory]['nombre'] : 'Todos';
                     ?>
                 </button>
                 <ul class="dropdown-menu">
@@ -42,7 +42,7 @@
 
                     <?php
                     foreach ($categories as $key => $category) { ?>
-                        <li><button type="button" class="dropdown-item filter__by-item" id="filter_by-<?php echo $category['id'] ?>"><?php echo $category['tipo'] ?></button></li>
+                        <li><button type="button" class="dropdown-item filter__by-item" id="filter_by-<?php echo $category['id'] ?>"><?php echo $category['nombre'] ?></button></li>
                     <?php
                     } ?>
                 </ul>
@@ -60,8 +60,8 @@
         <thead class="container__table-head">
             <tr class="container__table-row row-head">
                 <th class="container__table-celd ">Código</th>
-                <th class="container__table-celd ">Categoría</th>
                 <th class="container__table-celd ">Nombre</th>
+                <th class="container__table-celd ">Categorías</th>
                 <th class="container__table-celd ">Precio</th>
                 <th class="container__table-celd ">Stock</th>
                 <th class="container__table-celd ">Opciones</th>
@@ -74,12 +74,12 @@
 
                 <tr class="container__table-row row-normal" id="row__product-<?php echo $product['id'] ?>">
                     <td class="container__table-celd celd-id"><?php echo $product['id'] ?></td>
-                    <td class="container__table-celd celd-type"><?php echo $product['tipo'] ?></td>
                     <td class="container__table-celd celd-name"><?php echo $product['nombre'] ?></td>
+                    <td class="container__table-celd celd-type"><?php echo ($product['categorias'] != null) ? $product['categorias'] : 'No tiene categorías'; ?></td>
                     <td class="container__table-celd celd-price">$<?php echo $product['precio'] ?></td>
                     <td class="container__table-celd celd-stock"><?php echo $product['stock'] ?></td>
                     <td class="container__table-celd celd-options">
-                        <button type="button" class="btn-update btn__update-product" id="update__product-<?php echo $product['id'] ?>" title="Editar">
+                        <button type="button" class="btn-update btn__update" id="update-<?php echo $product['id'] ?>" title="Editar">
                             <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-edit" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
                                 <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
                                 <path d="M7 7h-1a2 2 0 0 0 -2 2v9a2 2 0 0 0 2 2h9a2 2 0 0 0 2 -2v-1"></path>
@@ -89,7 +89,7 @@
                         </button>
                         <?php
                         if ($product['fecha_eliminacion'] == null) { ?>
-                            <button type="button" class="btn-delete btn__delete-product" id="delete__product-<?php echo $product['id'] ?>" title="Eliminar">
+                            <button type="button" class="btn-delete btn__delete" id="delete__product-<?php echo $product['id'] ?>" title="Eliminar">
                                 <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-trash" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
                                     <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
                                     <path d="M4 7l16 0"></path>
@@ -101,7 +101,7 @@
                             </button>
                         <?php
                         } else { ?>
-                            <button type="button" class="btn-delete deleted btn__delete-product" id="delete__product-<?php echo $product['id'] ?>" title="Recuperar">
+                            <button type="button" class="btn-delete deleted btn__delete" id="delete__product-<?php echo $product['id'] ?>" title="Recuperar">
                                 <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-arrow-back-up" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
                                     <path stroke="none" d="M0 0h24v24H0z" fill="none" />
                                     <path d="M9 14l-4 -4l4 -4" />
@@ -158,11 +158,11 @@
 
 
 <!-- MODAL AGREGAR PRODUCTOS -->
-<div class="modal" id="modal__new-product">
+<div class="modal" id="modal__create">
     <div class="modal-content">
         <div class="modal-info">
             <h3>Agregar producto</h3>
-            <button type="button" class="btn-close-x modal-close" id="close--modal__new-product--1">
+            <button type="button" class="btn-close-x modal-close" id="close--modal__create--1">
                 <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-x" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
                     <path stroke="none" d="M0 0h24v24H0z" fill="none" />
                     <path d="M18 6l-12 12" />
@@ -172,11 +172,10 @@
         </div>
         <div class="modal-input-group">
             <label>Categoría</label>
-            <select id="new__product-cat" class="modal-input select-category">
-                <option value="0" hidden disabled selected>Selecciona una categoría</option>
+            <select id="create-cat" class="modal-input select-category" multiple="multiple">
                 <?php
                 foreach ($categories as $key => $category) { ?>
-                    <option value="<?php echo $category['id'] ?>"><?php echo $category['tipo'] ?></option>
+                    <option value="<?php echo $category['id'] ?>"><?php echo $category['nombre'] ?></option>
                 <?php
                 } ?>
             </select>
@@ -184,21 +183,21 @@
         </div>
         <div class="modal-input-group">
             <label>Nombre</label>
-            <input type="text" id="new__product-name" class="modal-input">
+            <input type="text" id="create-name" class="modal-input">
             <p class="errormessage__form"></p>
         </div>
         <div class="modal-input-group">
             <label>Stock</label>
-            <input type="number" id="new__product-stock" class="modal-input">
+            <input type="number" id="create-stock" class="modal-input">
             <p class="errormessage__form"></p>
         </div>
         <div class="modal-input-group">
             <label>Precio</label>
-            <input type="number" id="new__product-price" class="modal-input">
+            <input type="number" id="create-price" class="modal-input">
             <p class="errormessage__form"></p>
         </div>
         <div class="modal-input-group input-group-img fail">
-            <button type="button" class="btn__add-img" id="new__product-add-img">
+            <button type="button" class="btn__add-img" id="create-add-img">
                 <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-camera-plus" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
                     <path stroke="none" d="M0 0h24v24H0z" fill="none" />
                     <path d="M12 20h-7a2 2 0 0 1 -2 -2v-9a2 2 0 0 1 2 -2h1a2 2 0 0 0 2 -2a1 1 0 0 1 1 -1h6a1 1 0 0 1 1 1a2 2 0 0 0 2 2h1a2 2 0 0 1 2 2v3.5" />
@@ -208,10 +207,10 @@
                 </svg>
                 <span>Agregar imagen ilustrativa</span>
             </button>
-            <input type="file" id="new__product-img" class="modal-input input__file-img" accept="image/jpeg,image/png,image/webp" hidden>
+            <input type="file" id="create-img" class="modal-input input__file-img" accept="image/jpeg,image/png,image/webp" hidden>
             <div class="modal__preview-img">
-                <img class="preview__img" alt="Preview" id="new__product-preview-img">
-                <button type="button" class="btn__remove-img" id="new__product-delete-img">
+                <img class="preview__img" alt="Preview" id="create-preview-img">
+                <button type="button" class="btn__remove-img" id="create-delete-img">
                     <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-x" width="20" height="20" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
                         <path stroke="none" d="M0 0h24v24H0z" fill="none" />
                         <path d="M18 6l-12 12" />
@@ -222,19 +221,19 @@
             <p class="errormessage__form"></p>
         </div>
         <div class="modal-btns">
-            <button type="button" class="modal-btn cancel modal-close" id="close--modal__new-product--2">Cancelar</button>
-            <button type="button" class="modal-btn confirm" id="new__product-submit">Confirmar</button>
+            <button type="button" class="modal-btn cancel modal-close" id="close--modal__create--2">Cancelar</button>
+            <button type="button" class="modal-btn confirm" id="create-submit">Confirmar</button>
         </div>
     </div>
 </div>
 
 
 <!-- MODAL EDITAR PRODUCTOS -->
-<div class="modal" id="modal__update-product">
+<div class="modal" id="modal__update">
     <div class="modal-content">
         <div class="modal-info">
             <h3>Editar producto</h3>
-            <button type="button" class="btn-close-x modal-close" id="close--modal__update-product--1">
+            <button type="button" class="btn-close-x modal-close" id="close--modal__update--1">
                 <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-x" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
                     <path stroke="none" d="M0 0h24v24H0z" fill="none" />
                     <path d="M18 6l-12 12" />
@@ -243,15 +242,14 @@
             </button>
         </div>
 
-        <input type="number" id="update__product-id" class="modal-input" hidden>
+        <input type="number" id="update-id" class="modal-input" hidden>
 
         <div class="modal-input-group">
             <label>Categoría</label>
-            <select id="update__product-cat" class="modal-input select-category">
-                <option value="0" hidden disabled selected>Selecciona una categoría</option>
+            <select id="update-cat" class="modal-input select-category" multiple="multiple">
                 <?php
                 foreach ($categories as $key => $category) { ?>
-                    <option value="<?php echo $category['id'] ?>"><?php echo $category['tipo'] ?></option>
+                    <option value="<?php echo $category['id'] ?>"><?php echo $category['nombre'] ?></option>
                 <?php
                 } ?>
             </select>
@@ -259,21 +257,21 @@
         </div>
         <div class="modal-input-group">
             <label>Nombre</label>
-            <input type="text" id="update__product-name" class="modal-input">
+            <input type="text" id="update-name" class="modal-input">
             <p class="errormessage__form"></p>
         </div>
         <div class="modal-input-group">
             <label>Stock</label>
-            <input type="number" id="update__product-stock" class="modal-input">
+            <input type="number" id="update-stock" class="modal-input">
             <p class="errormessage__form"></p>
         </div>
         <div class="modal-input-group">
             <label>Precio</label>
-            <input type="number" id="update__product-price" class="modal-input">
+            <input type="number" id="update-price" class="modal-input">
             <p class="errormessage__form"></p>
         </div>
         <div class="modal-input-group input-group-img fail">
-            <button type="button" class="btn__add-img" id="update__product-add-img">
+            <button type="button" class="btn__add-img" id="update-add-img">
                 <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-camera-plus" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
                     <path stroke="none" d="M0 0h24v24H0z" fill="none" />
                     <path d="M12 20h-7a2 2 0 0 1 -2 -2v-9a2 2 0 0 1 2 -2h1a2 2 0 0 0 2 -2a1 1 0 0 1 1 -1h6a1 1 0 0 1 1 1a2 2 0 0 0 2 2h1a2 2 0 0 1 2 2v3.5" />
@@ -283,10 +281,10 @@
                 </svg>
                 <span>Agregar imagen ilustrativa</span>
             </button>
-            <input type="file" id="update__product-img" class="modal-input input__file-img" accept="image/jpeg,image/png,image/webp" hidden>
+            <input type="file" id="update-img" class="modal-input input__file-img" accept="image/jpeg,image/png,image/webp" hidden>
             <div class="modal__preview-img">
-                <img class="preview__img" alt="Preview" id="update__product-preview-img">
-                <button type="button" class="btn__remove-img" id="update__product-delete-img">
+                <img class="preview__img" alt="Preview" id="update-preview-img">
+                <button type="button" class="btn__remove-img" id="update-delete-img">
                     <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-x" width="20" height="20" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
                         <path stroke="none" d="M0 0h24v24H0z" fill="none" />
                         <path d="M18 6l-12 12" />
@@ -297,8 +295,8 @@
             <p class="errormessage__form"></p>
         </div>
         <div class="modal-btns">
-            <button type="button" class="modal-btn cancel modal-close" id="close--modal__update-product--2">Cancelar</button>
-            <button type="button" class="modal-btn confirm" id="update__product-submit">Confirmar</button>
+            <button type="button" class="modal-btn cancel modal-close" id="close--modal__update--2">Cancelar</button>
+            <button type="button" class="modal-btn confirm" id="update-submit">Confirmar</button>
         </div>
     </div>
 </div>

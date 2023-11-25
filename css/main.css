@@ -28,9 +28,12 @@ header {
     align-items: center;
     justify-content: start;
 
+    position: sticky;
+    top: 0;
+    height: 100vh;
+
     background: #224C2E;
     color: #FFF;
-
 }
 
 .container__header-menu {
@@ -189,6 +192,41 @@ header {
 .select2-container--default .select2-results__option--selected:hover {
     background-color: #5897FB !important;
     color: #FFF !important;
+}
+
+
+.select2-selection__rendered {
+    display: flex !important;
+    align-items: center;
+    flex-wrap: wrap;
+    margin: 0 !important;
+    gap: 10px;
+}
+.select2-container--default .select2-selection--multiple .select2-selection__choice {
+    margin: 0 !important;
+}
+
+.select2-container--default .select2-selection--multiple {
+    padding: 11px !important;
+    min-height: 46.5px;
+}
+
+.select2-container .select2-selection--multiple .select2-selection__rendered {
+    padding: 0 !important;
+}
+
+.select2-container--default .select2-selection--multiple .select2-selection__choice {
+    background: white !important;
+}
+
+.select2-search {
+    display: flex;
+    align-items: center;
+    margin-top: 3px;
+}
+.select2-search__field {
+    margin: 0 !important; 
+    line-height: normal;
 }
 /* FIN ESTILOS SELECT2 */
 

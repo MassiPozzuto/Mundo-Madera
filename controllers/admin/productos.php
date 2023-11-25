@@ -15,7 +15,11 @@ if (!isset($_GET['filterBy'])) {
     $_GET['filterBy'] = 'all';
 }
 if($_GET['filterBy'] != 'all'){
-    $conditionFilterBy = "AND p.id_categoria = ?";
+    $conditionFilterBy = "AND  p.id IN (
+                            SELECT cp.id_producto
+                            FROM categoria_producto cp
+                            WHERE cp.id_categoria = ?
+                        )";
 } else {
     $conditionFilterBy = "";
 }
@@ -27,12 +31,16 @@ if(isset($_GET['search']) && !empty($_GET['search'])){
 }
 
 // Obtener el total de registros para calcular el número de páginas
-$total_registros_stmt = mysqli_prepare($conn, "SELECT COUNT(*) as total FROM productos p WHERE 1 {$conditionDeleted} {$conditionFilterBy} {$conditionSearch}");
+$total_registros_stmt = mysqli_prepare($conn, "SELECT COUNT(DISTINCT p.id) as total
+                                               FROM productos p
+                                               LEFT JOIN categoria_producto cp ON cp.id_producto = p.id
+                                               LEFT JOIN categorias c ON c.id = cp.id_categoria
+                                               WHERE 1 {$conditionDeleted} {$conditionFilterBy} {$conditionSearch}");
 
 // Definir los parámetros y sus tipos
 $paramTypes = "";
 if ($_GET['filterBy'] != 'all') {
-    $paramTypes .= "s";
+    $paramTypes .= "i";
     $params[] = $_GET['filterBy'];
 }
 if (!empty($_GET['search'])) {
@@ -66,10 +74,12 @@ $categories = mysqli_fetch_all($resultCategories, MYSQLI_ASSOC);
 
 
 // Consulta para obtener los productos deseados
-$sqlProducts = "SELECT p.*, c.tipo 
+$sqlProducts = "SELECT p.*, GROUP_CONCAT(c.nombre) AS categorias
                 FROM productos p
-                INNER JOIN categorias c ON c.id = p.id_categoria 
+                LEFT JOIN categoria_producto cp ON cp.id_producto = p.id 
+                LEFT JOIN categorias c ON c.id = cp.id_categoria 
                 WHERE 1 {$conditionDeleted} {$conditionFilterBy} {$conditionSearch}
+                GROUP BY p.id
                 LIMIT ?, " . CANT_REG_PAG;
 
 $stmtProducts = mysqli_prepare($conn, $sqlProducts);

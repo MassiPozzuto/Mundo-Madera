@@ -40,6 +40,7 @@ if ($rowCheckDeleted['fecha_eliminacion'] !== null) {
 		$message['msj'] = "Error al intentar recuperar el producto";
 		$message['action'] = "recover";
 	}
+
 } else {
 	// Consulta preparada para verificar si hay pedidos actuales (no entregados) relacionados con el producto
 	$sqlCheckOrders = "SELECT pedidos.* FROM pedidos
@@ -66,7 +67,13 @@ if ($rowCheckDeleted['fecha_eliminacion'] !== null) {
 		$stmtUpdateProduct = mysqli_prepare($conn, $sqlUpdateProduct);
 		mysqli_stmt_bind_param($stmtUpdateProduct, "i", $productId);
 		$resultUpdateProduct = mysqli_stmt_execute($stmtUpdateProduct);
-	
+
+		// Eliminar registros asociados en la tabla categoria_producto
+		$sqlDeleteCategoriaProducto = "DELETE FROM categoria_producto WHERE id_producto = ?";
+		$stmtDeleteCategoriaProducto = mysqli_prepare($conn, $sqlDeleteCategoriaProducto);
+		mysqli_stmt_bind_param($stmtDeleteCategoriaProducto, "i", $productId);
+		$resultDeleteCategoriaProducto = mysqli_stmt_execute($stmtDeleteCategoriaProducto);
+
 		// Vaciar el directorio que contiene la imagen ilustrativa del producto
 		deleteDirContents("../../img/products/" . $productId);
 	
