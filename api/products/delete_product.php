@@ -44,8 +44,8 @@ if ($rowCheckDeleted['fecha_eliminacion'] !== null) {
 } else {
 	// Consulta preparada para verificar si hay pedidos actuales (no entregados) relacionados con el producto
 	$sqlCheckOrders = "SELECT pedidos.* FROM pedidos
-							INNER JOIN pedidos_productos ON pedidos_productos.id_pedido = pedidos.id
-						WHERE pedidos_productos.id_producto = ? AND pedidos.fecha_entrega IS NULL";
+							INNER JOIN pedido_producto ON pedido_producto.id_pedido = pedidos.id
+						WHERE pedido_producto.id_producto = ? AND pedidos.fecha_entrega IS NULL";
 	
 	$stmtCheckOrders = mysqli_prepare($conn, $sqlCheckOrders);
 	mysqli_stmt_bind_param($stmtCheckOrders, "i", $productId);

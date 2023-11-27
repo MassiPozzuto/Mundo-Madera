@@ -74,7 +74,7 @@ $categories = mysqli_fetch_all($resultCategories, MYSQLI_ASSOC);
 
 
 // Consulta para obtener los productos deseados
-$sqlProducts = "SELECT p.*, GROUP_CONCAT(c.nombre) AS categorias
+$sqlProducts = "SELECT p.*, GROUP_CONCAT(' ', c.nombre) AS categorias
                 FROM productos p
                 LEFT JOIN categoria_producto cp ON cp.id_producto = p.id 
                 LEFT JOIN categorias c ON c.id = cp.id_categoria 

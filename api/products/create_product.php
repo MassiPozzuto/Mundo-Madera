@@ -49,11 +49,6 @@ if ($precio == null || $precio < 0 || $precio > 2147483647) {
 
 } 
 
-/*if ($categoria == 0) {
-	$isValid = false;
-	$errors['create-cat'] = "Debe seleccionar una categoría.";
-
-}*/
 
 if(!$isValid){
 	$message['success'] = false;

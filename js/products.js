@@ -185,15 +185,6 @@ document.getElementById('update-submit').addEventListener('click', (e) => {
 function validations(name, stock, price, img = null) {
     var isValid = 0;
 
-    /*//CATEGORIA
-    if (!category.value.trim() || category.value == 0) {
-        failValidation(category, 'Debe seleccionar una categoría.')
-
-    } else {
-        successValidation(category)
-        isValid++
-    }*/
-
     //NOMBRE
     if (!name.value.trim()) {
         failValidation(name, 'Debe ingresar un nombre.')
@@ -216,7 +207,7 @@ function validations(name, stock, price, img = null) {
     }
 
     //PRECIO
-    if (!price.value.trim() || parseInt(price.value, 10) > 2147483647 || parseInt(stock.value, 10) < 0) {
+    if (!price.value.trim() || parseInt(price.value, 10) > 2147483647 || parseInt(price.value, 10) < 0) {
         failValidation(price, 'Debe ingresar un precio válido.')
 
     } else {
@@ -249,7 +240,6 @@ function clearModals(typeModal) {
     let name = document.getElementById(`${typeModal}-name`)
     let stock = document.getElementById(`${typeModal}-stock`)
     let price = document.getElementById(`${typeModal}-price`)
-    let category = document.getElementById(`${typeModal}-cat`)  
     let previewImg = document.getElementById(`${typeModal}-preview-img`)
     let img = document.getElementById(`${typeModal}-img`)
 

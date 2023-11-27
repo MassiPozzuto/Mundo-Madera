@@ -99,6 +99,19 @@ h3 {
 	.btn-delete.deleted:hover {
 		background-color: #DF0000;
 	}
+
+.btn-deliver {
+    margin-left: 5px;
+	color: #00BF00;
+}
+
+.btn-deliver.delivered {
+	background-color: #00BF00;
+	color: white;
+}
+	.btn-deliver.delivered:hover {
+		background-color: #00AF00;
+	}
 /* FIN ESTILOS TABLAS */
 
 
@@ -225,7 +238,7 @@ input:focus {
     border-radius: 50%;
 }
 .btn-close-x:hover {
-    background: #D3D3D3;
+    background: #eee;
 }
 
 .modal__preview-img {
@@ -386,3 +399,121 @@ input:focus {
 	opacity: 0.7;
 	cursor: not-allowed;
 }
+
+
+
+
+/************** CHECKBOX *******************/
+.delivery {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 0.875rem;
+}
+
+.label__delivery {
+    display: flex;
+    align-items: center;
+    position: relative;
+    padding-left: 25px;
+    cursor: pointer;
+    user-select: none;
+    /*font-weight: 600;*/
+    font-size: 15px;
+
+    margin: 0 !important;
+}
+
+    .label__delivery input {
+        position: absolute;
+        opacity: 0;
+        cursor: pointer;
+        height: 0;
+        width: 0;
+    }
+
+.checkmark {
+    position: absolute;
+    left: 0;
+    height: 18px;
+    width: 18px;
+    background-color: transparent;
+    border: 1px solid #d5d5d5;
+    border-radius: 0.25rem;
+}
+
+/* Al pasar el mouse encima, lo ponemos gris */
+.label__delivery:hover input ~ .checkmark {
+    background-color: #eee;
+}
+
+/* creamos el marcador (escondido al no seleccionar) */
+.checkmark:after {
+    content: "";
+    position: absolute;
+    display: none;
+}
+
+/* Mostramos el tick cuando se cliclea */
+.label__delivery input:checked ~ .checkmark:after {
+    display: block;
+}
+
+/* Fondo del checkbox falso cuando esta activo*/
+.label__delivery input:checked ~ .checkmark {
+    background-color: #265834;
+    border-color: #265834;
+}
+
+/* estilo del marcador */
+.label__delivery .checkmark:after {
+    left: 5px;
+    top: 1px;
+    width: 6px;
+    height: 11px;
+    border: solid white;
+    border-width: 0 2px 2px 0;
+    -webkit-transform: rotate(45deg);
+    -ms-transform: rotate(45deg);
+    transform: rotate(45deg);
+}
+
+/************** FIN CHECKBOX *******************/
+
+.products-container {
+    width: 100%;
+
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+}
+
+.container__number-of-product {
+    text-align: start;
+    font-size: 13px;
+}
+
+.container__product-orders {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.input__cant-product {
+    width: 80px;
+    text-align: center;
+    padding-right: 5px;
+}
+
+.dlt-product {
+    padding: 3px 5px;
+}
+
+
+/* Oculta las flechas del input number */
+  .input-no-flechas::-webkit-inner-spin-button,
+  .input-no-flechas::-webkit-outer-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+  }
