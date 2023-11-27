@@ -24,7 +24,7 @@ if ($_GET['allowAll'] == 'yes') {
 
 
 if (isset($_GET['search']) && !empty($_GET['search'])) {
-    $conditionSearch = "AND (estados.descripcion LIKE ? OR pedidos.id LIKE ? OR envios.ciudad LIKE ?)";
+    $conditionSearch = "AND (estados_envio.descripcion LIKE ? OR pedidos.id LIKE ? OR envios.id LIKE ? OR envios.direccion LIKE ?)";
 } else {
     $conditionSearch = "";
 }
@@ -33,7 +33,7 @@ if (isset($_GET['search']) && !empty($_GET['search'])) {
 // Obtener el total de registros para calcular el número de páginas
 $total_registros_stmt = mysqli_prepare($conn, "SELECT COUNT(DISTINCT envios.id) as total
                                                 FROM envios
-                                                JOIN estados ON estados.id = envios.id_estado
+                                                JOIN estados AS estados_envio ON estados_envio.id = envios.id_estado
                                                 LEFT JOIN pedidos ON pedidos.id = envios.id_pedido
                                                 LEFT JOIN pedido_producto ON pedido_producto.id_pedido = pedidos.id
                                                WHERE 1 {$conditionDeleted} {$conditionFilterBy} {$conditionSearch}");
@@ -46,8 +46,9 @@ if ($_GET['filterBy'] != 'all') {
     $params[] = $_GET['filterBy'];
 }
 if (!empty($_GET['search'])) {
-    $paramTypes .= "sss";
+    $paramTypes .= "ssss";
     $params[] = '%'. $_GET['search'] . '%';
+    $params[] = '%' . $_GET['search'] . '%';
     $params[] = '%' . $_GET['search'] . '%';
     $params[] = '%' . $_GET['search'] . '%';
 }
