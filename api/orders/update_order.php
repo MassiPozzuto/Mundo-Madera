@@ -217,6 +217,12 @@ try {
                 throw new Exception('Error al insertar la información de envío');
             }
         }
+    } else {
+        // Verificar si ya hay información de envío asociada con la orden
+        $sqlDeleteDelivery = "DELETE FROM envios WHERE id_pedido = ?";
+        $stmtDeleteDelivery = mysqli_prepare($conn, $sqlDeleteDelivery);
+        mysqli_stmt_bind_param($stmtDeleteDelivery, "i", $id);
+        mysqli_stmt_execute($stmtDeleteDelivery);
     }
 
 

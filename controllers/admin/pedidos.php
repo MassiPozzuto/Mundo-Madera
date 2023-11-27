@@ -25,7 +25,7 @@ if ($_GET['filterBy'] != 'all') {
 }
 
 if (isset($_GET['search']) && !empty($_GET['search'])) {
-    $conditionSearch = "AND (pe.nombre LIKE ? OR pe.dni LIKE ? OR pe.telefono LIKE ? OR pe.id LIKE ?)";
+    $conditionSearch = "AND (pe.id LIKE ? OR pe.nombre LIKE ? OR pe.dni LIKE ? OR pe.telefono LIKE ?)";
 } else {
     $conditionSearch = "";
 }

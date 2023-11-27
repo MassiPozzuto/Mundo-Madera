@@ -70,7 +70,7 @@
 
                 <tr class="container__table-row row-normal" id="row__delivery-<?php echo $delivery['id_envio'] ?>">
                     <td class="container__table-celd celd-id"><?php echo $delivery['id_envio'] ?></td>
-                    <td class="container__table-celd celd-id_order"><?php echo $delivery['id_pedido'] ?></td>
+                    <td class="container__table-celd celd-id_order"><a href="pedidos.php?search=<?php echo $delivery['id_pedido'] ?>&filterBy=all&allowAll=yes"><?php echo $delivery['id_pedido'] ?></a></td>
                     <td class="container__table-celd celd-state_delivery"><?php echo $delivery['estado_envio'] ?></td>
                     <td class="container__table-celd celd-state_order"><?php echo $delivery['estado_pedido'] ?></td>
                     <td class="container__table-celd celd-province"><?php echo $delivery['provincia'] ?></td>

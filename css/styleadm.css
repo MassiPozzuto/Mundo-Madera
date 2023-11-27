@@ -533,3 +533,11 @@ input:focus {
 .modal-inputs-double div{
     width: 100%;
 }
+
+
+.celd-id_order a {
+    color: green;
+}
+.celd-id_order a:hover {
+    text-decoration: underline;
+}
