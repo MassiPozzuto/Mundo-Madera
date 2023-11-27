@@ -1,10 +1,10 @@
 <?php
 require('../../includes/config.php');
 
-if (!isset($_GET['allowDeleted'])) {
-    $_GET['allowDeleted'] = 'no';
+if (!isset($_GET['allowAll'])) {
+    $_GET['allowAll'] = 'no';
 }
-if ($_GET['allowDeleted'] == 'yes') {
+if ($_GET['allowAll'] == 'yes') {
     $conditionDeleted = "";
 } else {
     $conditionDeleted = "AND c.fecha_eliminacion IS NULL";

@@ -9,10 +9,10 @@
 
     <form action="login.php" method="POST" class="login__form" id="formLogin">
 
-        <?php 
-        if(isset($error_msj)) {?>
-            <div class="form-group" >
-                <p class="msj_error" id="msj_error_login"><?php echo $error_msj ?></p>
+        <?php
+        if (isset($error_msj)) { ?>
+            <div class="form-group">
+                <p class="errormessage__form" id="msj_error_login"><?php echo $error_msj ?></p>
             </div>
         <?php
         } ?>

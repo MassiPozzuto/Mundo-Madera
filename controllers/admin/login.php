@@ -2,13 +2,13 @@
 require('../../includes/config.php');
 
 if (isset($_SESSION['user'])) {
-    header('location: inicio.php');
+    header('location: pedidos.php');
 }
 
 if (!empty($_POST)) {
     if (!empty($_POST['username']) && !empty($_POST['password'])) {
         // Consulta preparada
-        $sqlLogin = "SELECT * FROM usuarios WHERE username=? AND usuarios.password=? AND fecha_eliminacion IS NULL";
+        $sqlLogin = "SELECT * FROM usuarios WHERE username = ? AND usuarios.password = ?";
         $stmt = mysqli_prepare($conn, $sqlLogin);
 
         if ($stmt) {
@@ -35,7 +35,7 @@ if (!empty($_POST)) {
                 }
 
                 //$message['message'] = "Se ha iniciado sesión correctamente";
-                header("Location: inicio.php");
+                header("Location: pedidos.php");
             } else {
                 // Nombre de usuario incorrecto 
                 //$message['username'] = "El nombre de usuario no es correcto";

@@ -644,6 +644,7 @@ function deliverItem(formData, button) {
                                 <path d="M18 6l-12 12" />
                                 <path d="M6 6l12 12" />
                             </svg>`
+                        button.parentNode.parentNode.querySelector('.celd-state').innerText = 'Entregado'
                     } else {
                         //Si la accion fue recuperar el pedido
                         button.classList.remove('delivered')
@@ -652,6 +653,7 @@ function deliverItem(formData, button) {
                                 <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
                                 <path d="M5 12l5 5l10 -10" />
                             </svg>`
+                        button.parentNode.parentNode.querySelector('.celd-state').innerText = 'En proceso'
                     }
                 }
             } else {

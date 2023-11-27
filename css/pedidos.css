@@ -2,16 +2,7 @@
     max-width: 650px;
 }
 
-.modal-inputs-double {
-    display: flex;
-    align-items: start;
-    justify-content: space-between;
-    gap: 20px;
-}
 
-.modal-inputs-double div{
-    width: 100%;
-}
 
 .container-check-delivery {
     padding-top: 20px;

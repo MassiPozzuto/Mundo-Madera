@@ -25,7 +25,7 @@ if ($_GET['filterBy'] != 'all') {
 }
 
 if (isset($_GET['search']) && !empty($_GET['search'])) {
-    $conditionSearch = "AND (pe.nombre LIKE ? OR pe.dni LIKE ? OR pe.telefono LIKE ?)";
+    $conditionSearch = "AND (pe.nombre LIKE ? OR pe.dni LIKE ? OR pe.telefono LIKE ? OR pe.id LIKE ?)";
 } else {
     $conditionSearch = "";
 }
@@ -44,8 +44,9 @@ if ($_GET['filterBy'] != 'all') {
     $params[] = $_GET['filterBy'];
 }
 if (!empty($_GET['search'])) {
-    $paramTypes .= "sss";
+    $paramTypes .= "ssss";
     $params[] = '%'. $_GET['search'] . '%';
+    $params[] = '%' . $_GET['search'] . '%';
     $params[] = '%' . $_GET['search'] . '%';
     $params[] = '%' . $_GET['search'] . '%';
 }

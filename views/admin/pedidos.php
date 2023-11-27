@@ -50,7 +50,7 @@
 
             <span>Mostrar todos </span>
             <div class="form-check form-switch">
-                <input type="checkbox" class="form-check-input" id="check-allow-deleted" value="" <?php echo ($_GET['allowAll'] == 'yes') ? 'checked' : null; ?>>
+                <input type="checkbox" class="form-check-input" id="check-allow-all" value="" <?php echo ($_GET['allowAll'] == 'yes') ? 'checked' : null; ?>>
             </div>
         </div>
     </div>
@@ -66,7 +66,7 @@
                 <th class="container__table-celd ">Nombre completo</th>
                 <th class="container__table-celd ">DNI</th>
                 <th class="container__table-celd ">Telefono</th>
-                <th class="container__table-celd ">Creado en</th>
+                <th class="container__table-celd ">Creación</th>
                 <th class="container__table-celd ">Opciones</th>
             </tr>
         </thead>
@@ -83,7 +83,7 @@
                     <td class="container__table-celd celd-name_surname"><?php echo $order['nombre_completo'] ?></td>
                     <td class="container__table-celd celd-dni"><?php echo $order['dni'] ?></td>
                     <td class="container__table-celd celd-tel"><?php echo $order['telefono'] ?></td>
-                    <td class="container__table-celd celd-creation"><?php echo $order['fecha_creacion'] ?></td>
+                    <td class="container__table-celd celd-creation"><?php echo date('d/m/Y', strtotime($order['fecha_creacion']))?></td>
                     <td class="container__table-celd celd-options">
                         <button type="button" class="btn-update btn__update" id="update-<?php echo $order['id'] ?>" title="Editar">
                             <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-edit" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">

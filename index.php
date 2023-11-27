@@ -1,5 +1,5 @@
 <?php
 
-	header("Location: controllers/admin/inicio.php");
+	header("Location: controllers/admin/pedidos.php");
 
 ?>

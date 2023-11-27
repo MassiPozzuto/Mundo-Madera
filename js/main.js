@@ -73,9 +73,11 @@ const alertMsj = (msj, type, time = 2000) => {
 
 window.onload = function () {
     //ABRIR MODAL DE CREAR
-    document.getElementById('btn__open-create').addEventListener('click', () => {
-        document.getElementById('modal__create').style.display = 'block'
-    })
+    if (document.getElementById('btn__open-create')) {
+        document.getElementById('btn__open-create').addEventListener('click', () => {
+            document.getElementById('modal__create').style.display = 'block'
+        })
+    }
     
     // Encuentra el contenedor de tabla o el elemento más cercano que esté presente desde el principio
     var tableBody = document.getElementById('table_body');
@@ -89,7 +91,6 @@ window.onload = function () {
             var formData = new FormData();
             formData.append('id', idItem);
     
-            console.log(button.classList)
             // Verifica si el clic se hizo en un botón de actualizacion o de eliminacion
             if (button.classList.contains('btn__update')) {
                 //ABRIR MODAL DE ACTUALIZAR, REEMPLAZANDO SU CONTENIDO SEGUN EL ITEM SELECCIONADO
@@ -123,15 +124,15 @@ window.onload = function () {
     /************** FILTROS ******************/
     const URL_PARAMS = new URLSearchParams(window.location.search);
     //CAMBIAR PARAMETRO DE VER O NO ITEM ELIMINADOS
-    document.getElementById('check-allow-deleted').addEventListener('click', (e) => {
+    document.getElementById('check-allow-all').addEventListener('click', (e) => {
         var newUrl;
         if (e.target.checked) {
             //Desea ver los eliminados
-            URL_PARAMS.set('allowDeleted', 'yes')
+            URL_PARAMS.set('allowAll', 'yes')
             newUrl = `${window.location.pathname}?${URL_PARAMS.toString()}`;
         } else {
             //No desea ver los eliminados
-            URL_PARAMS.set('allowDeleted', 'no')
+            URL_PARAMS.set('allowAll', 'no')
             newUrl = `${window.location.pathname}?${URL_PARAMS.toString()}`;
         }
 

@@ -17,7 +17,7 @@
             <form method="GET" class="container__search-bar" action="">
                 <input type="search" name="search" placeholder="Buscar..." value="<?php echo (isset($_GET['search'])) ? $_GET['search'] : null; ?>">
                 <input type="text" name="filterBy" value="<?php echo $_GET['filterBy'] ?>" hidden>
-                <input type="text" name="allowDeleted" value="<?php echo $_GET['allowDeleted'] ?>" hidden>
+                <input type="text" name="allowAll" value="<?php echo $_GET['allowAll'] ?>" hidden>
                 <button type="submit">
                     <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-search" width="20" height="20" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
                         <path stroke="none" d="M0 0h24v24H0z" fill="none" />
@@ -50,7 +50,7 @@
 
             <span>Mostrar los eliminados </span>
             <div class="form-check form-switch">
-                <input type="checkbox" class="form-check-input" id="check-allow-deleted" value="" <?php echo ($_GET['allowDeleted'] == 'yes') ? 'checked' : null; ?>>
+                <input type="checkbox" class="form-check-input" id="check-allow-all" value="" <?php echo ($_GET['allowAll'] == 'yes') ? 'checked' : null; ?>>
             </div>
         </div>
     </div>

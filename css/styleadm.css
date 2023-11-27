@@ -519,3 +519,17 @@ input:focus {
     -webkit-appearance: none;
     margin: 0;
   }
+
+
+
+
+  .modal-inputs-double {
+    display: flex;
+    align-items: start;
+    justify-content: space-between;
+    gap: 20px;
+}
+
+.modal-inputs-double div{
+    width: 100%;
+}
