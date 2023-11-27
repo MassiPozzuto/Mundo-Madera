@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 27-11-2023 a las 13:10:51
+-- Tiempo de generación: 27-11-2023 a las 13:12:12
 -- Versión del servidor: 10.4.22-MariaDB
 -- Versión de PHP: 8.1.2
 
@@ -298,7 +298,8 @@ ALTER TABLE `provincias`
 -- Indices de la tabla `usuarios`
 --
 ALTER TABLE `usuarios`
-  ADD PRIMARY KEY (`id`);
+  ADD PRIMARY KEY (`id`),
+  ADD UNIQUE KEY `UQ_username` (`username`);
 
 --
 -- AUTO_INCREMENT de las tablas volcadas
