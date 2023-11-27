@@ -3,10 +3,11 @@ require('../../includes/config.php');
 
 
 if (isset($_GET['search']) && !empty($_GET['search'])) {
-    $conditionSearch = "AND (u.username LIKE ? OR u.nombre LIKE ? OR u.appellido LIKE ?)";
+    $conditionSearch = "AND (u.username LIKE ? OR u.nombre LIKE ? OR u.apellido LIKE ?)";
 } else {
     $conditionSearch = "";
 }
+
 
 // Obtener el total de registros para calcular el número de páginas
 $total_registros_stmt = mysqli_prepare($conn, "SELECT COUNT(DISTINCT u.id) as total
@@ -42,7 +43,7 @@ $page = $_GET['page'];
 
 
 // Consulta para obtener los productos deseados
-$sqlUsers = "SELECT * FROM usuarios 
+$sqlUsers = "SELECT u.* FROM usuarios  u
             WHERE 1 {$conditionSearch}
             LIMIT ?, " . CANT_REG_PAG;
 
