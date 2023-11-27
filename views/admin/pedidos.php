@@ -182,11 +182,12 @@
                             <option value="0" disabled hidden selected>Seleccione un producto</option>
                             <?php
                             foreach ($products as $key => $product) { ?>
-                                <option value="<?php echo $product['id'] ?>"><?php echo $product['nombre'] ?></option>
+                                <option value="<?php echo $product['id'] ?>" aria-stock="<?php echo $product['stock'] ?>"><?php echo $product['nombre'] ?></option>
                             <?php
                             } ?>
                         </select>
-                        <p class="errormessage__form">PENE</p>
+                        <p class="errormessage__form for-stock"></p>
+                        <p class="errormessage__form for-product-name"></p>
                     </div>
                 </div>
             </div>
@@ -229,11 +230,37 @@
             <div class="form-group delivery">
                 <label class="label__delivery">
                     Envio a domicilio
-                    <input type="checkbox" id="delivery" name="delivery">
+                    <input type="checkbox" class="check-delivery" id="create-delivery">
                     <span class="checkmark"></span>
                 </label>
             </div>
             <p class="errormessage__form"></p>
+        </div>
+        <div class="container__info-delivery" id="create-info-delivery">
+            <div class="modal-inputs-double">
+                <div class="modal-input-group">
+                    <label>Provincia</label>
+                    <select class="modal-input select-province create" id="create-province">
+                        <option value="0" disabled hidden selected>Seleccione la provincia</option>
+                        <?php
+                        foreach ($provinces as $key => $province) { ?>
+                            <option value="<?php echo $province['id'] ?>"><?php echo $province['nombre'] ?></option>
+                        <?php
+                        } ?>
+                    </select>
+                    <p class="errormessage__form"></p>
+                </div>
+                <div class="modal-input-group">
+                    <label>Ciudad</label>
+                    <input type="text" id="create-city" class="modal-input">
+                    <p class="errormessage__form"></p>
+                </div>
+            </div>
+            <div class="modal-input-group">
+                <label>Dirección</label>
+                <input type="text" id="create-address" class="modal-input">
+                <p class="errormessage__form"></p>
+            </div>
         </div>
         <div class="modal-btns">
             <button type="button" class="modal-btn cancel modal-close" id="close--modal__create--2">Cancelar</button>
@@ -261,37 +288,45 @@
 
         <div class="modal-input-group">
             <label>Productos</label>
-            <select id="update-pro" class="modal-input select-product" multiple="multiple">
-                <?php
-                foreach ($products as $key => $product) { ?>
-                    <option value="<?php echo $product['id'] ?>"><?php echo $product['nombre'] ?></option>
-                <?php
-                } ?>
-            </select>
-            <p class="errormessage__form"></p>
+            <div class="products-container" id="update-product">
+                <div id="container__product-1">
+                    <div class="container__number-of-product">1.</div>
+                    <div class="container__product-orders update">
+                        <input type="number" class="modal-input input__cant-product update" id="update-product--number-1">
+                        <select class="modal-input select-product update" id="update-product--select-1">
+                            <option value="0" disabled hidden selected>Seleccione un producto</option>
+                            <?php
+                            foreach ($products as $key => $product) { ?>
+                                <option value="<?php echo $product['id'] ?>" aria-stock="<?php echo $product['stock'] ?>"><?php echo $product['nombre'] ?></option>
+                            <?php
+                            } ?>
+                        </select>
+                        <p class="errormessage__form for-stock"></p>
+                        <p class="errormessage__form for-product-name"></p>
+                    </div>
+                </div>
+            </div>
         </div>
-        <div class="modal-input-group">
-            <label>Nombre</label>
-            <input type="text" id="update-name" class="modal-input">
-            <p class="errormessage__form"></p>
-        </div>
-        <div class="modal-input-group">
-            <label>Apellido</label>
-            <input type="text" id="update-surname" class="modal-input">
-            <p class="errormessage__form"></p>
+        <div class="modal-inputs-double">
+            <div class="modal-input-group">
+                <label>Nombre</label>
+                <input type="text" id="update-name" class="modal-input">
+                <p class="errormessage__form"></p>
+            </div>
+            <div class="modal-input-group">
+                <label>Apellido</label>
+                <input type="text" id="update-surname" class="modal-input">
+                <p class="errormessage__form"></p>
+            </div>
         </div>
         <div class="modal-input-group">
             <label>DNI</label>
-            <input type="number" id="update-dni" class="modal-input">
+            <input type="number" id="update-dni" class="modal-input input-no-flechas">
             <p class="errormessage__form"></p>
         </div>
         <div class="modal-input-group">
             <label>Telefono</label>
-            <input type="number" id="update-tel" class="modal-input">
-            <p class="errormessage__form"></p>
-        </div>
-        <div class="modal-input-group">
-            <label>Envio a domicilio</label>
+            <input type="number" id="update-tel" class="modal-input input-no-flechas">
             <p class="errormessage__form"></p>
         </div>
         <div class="modal-input-group">
@@ -299,11 +334,48 @@
             <select id="update-state" class="modal-input select-state">
                 <?php
                 foreach ($states as $key => $state) { ?>
-                    <option value="<?php echo $state['id'] ?>"><?php echo $state['nombre'] ?></option>
+                    <option value="<?php echo $state['id'] ?>"><?php echo $state['descripcion'] ?></option>
                 <?php
                 } ?>
             </select>
             <p class="errormessage__form"></p>
+        </div>
+        <div class="modal-input-group container-check-delivery">
+            <!-- Hacer checkbox para envio, si este esta activado, debe agregar 3 inputs: direccion, provincia, ciudad -->
+            <div class="form-group delivery">
+                <label class="label__delivery">
+                    Envio a domicilio
+                    <input type="checkbox" class="check-delivery" id="update-delivery">
+                    <span class="checkmark"></span>
+                </label>
+            </div>
+            <p class="errormessage__form"></p>
+        </div>
+        <div class="container__info-delivery" id="update-info-delivery">
+            <div class="modal-inputs-double">
+                <div class="modal-input-group">
+                    <label>Provincia</label>
+                    <select class="modal-input select-province update" id="update-province">
+                        <option value="0" disabled hidden selected>Seleccione la provincia</option>
+                        <?php
+                        foreach ($provinces as $key => $province) { ?>
+                            <option value="<?php echo $province['id'] ?>"><?php echo $province['nombre'] ?></option>
+                        <?php
+                        } ?>
+                    </select>
+                    <p class="errormessage__form"></p>
+                </div>
+                <div class="modal-input-group">
+                    <label>Ciudad</label>
+                    <input type="text" id="update-city" class="modal-input">
+                    <p class="errormessage__form"></p>
+                </div>
+            </div>
+            <div class="modal-input-group">
+                <label>Dirección</label>
+                <input type="text" id="update-address" class="modal-input">
+                <p class="errormessage__form"></p>
+            </div>
         </div>
         <div class="modal-btns">
             <button type="button" class="modal-btn cancel modal-close" id="close--modal__update--2">Cancelar</button>

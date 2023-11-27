@@ -100,15 +100,49 @@ try {
 
     // Insertar las categorías en la tabla categoria_producto
     foreach ($products as $product) {
-        $sqlInsertCategoriaProducto = "INSERT INTO pedido_producto (id_pedido, id_producto, cantidad) VALUES (?, ?, ?)";
-        $stmtInsertCategoriaProducto = mysqli_prepare($conn, $sqlInsertCategoriaProducto);
-        mysqli_stmt_bind_param($stmtInsertCategoriaProducto, "iii", $orderID, $product['id'], $product['cantidad']);
-        $resultInsertCategoriaProducto = mysqli_stmt_execute($stmtInsertCategoriaProducto);
+        $productID = $product['id'];
+        $requestedQuantity = $product['cantidad'];
 
-        if (!$resultInsertCategoriaProducto) {
-            $errors['general'] = "Error al insertar productos del pedido";
+        // Consultar la cantidad actual de stock del producto
+        $sqlGetProductStock = "SELECT nombre, stock FROM productos WHERE id = ?";
+        $stmtGetProductStock = mysqli_prepare($conn, $sqlGetProductStock);
+        mysqli_stmt_bind_param($stmtGetProductStock, "i", $productID);
+        mysqli_stmt_execute($stmtGetProductStock);
+
+        $currentProductStock = mysqli_stmt_get_result($stmtGetProductStock);
+        $currentProductStock = mysqli_fetch_assoc($currentProductStock);
+
+        // Verificar si hay suficiente stock para el pedido
+        if ($currentProductStock['stock'] >= $requestedQuantity) {
+            // Calcular la nueva cantidad de stock después de realizar el pedido
+            $newStock = $currentProductStock['stock'] - $requestedQuantity;
+
+            // Actualizar la cantidad de stock en la tabla de productos
+            $sqlUpdateStock = "UPDATE productos SET stock = ? WHERE id = ?";
+            $stmtUpdateStock = mysqli_prepare($conn, $sqlUpdateStock);
+            mysqli_stmt_bind_param($stmtUpdateStock, "ii", $newStock, $productID);
+            mysqli_stmt_execute($stmtUpdateStock);
+
+
+            $sqlInsertCategoriaProducto = "INSERT INTO pedido_producto (id_pedido, id_producto, cantidad) VALUES (?, ?, ?)";
+            $stmtInsertCategoriaProducto = mysqli_prepare($conn, $sqlInsertCategoriaProducto);
+            mysqli_stmt_bind_param($stmtInsertCategoriaProducto, "iii", $orderID, $product['id'], $requestedQuantity);
+            $resultInsertCategoriaProducto = mysqli_stmt_execute($stmtInsertCategoriaProducto);
+
+            if (!$resultInsertCategoriaProducto) {
+                $errors['general'] = "Error al insertar productos del pedido";
+                throw new Exception('Error al insertar productos del pedido');
+            }
+        } else {
+            // Manejar la situación donde no hay suficiente stock
+            // Puedes lanzar una excepción, agregar un mensaje al usuario, etc.
+            // Por ejemplo:
+            $message['success'] = false;
+            $errors['general'] = "Solo hay " . $currentProductStock['stock'] . " del producto '". $currentProductStock['nombre'] ."'";
             throw new Exception('Error al insertar productos del pedido');
         }
+
+        
     }
 
     if($delivery == true) {
@@ -123,6 +157,7 @@ try {
         }
     }
 
+    
     // Confirmar transacción
     mysqli_commit($conn);
     $message['success'] = true;

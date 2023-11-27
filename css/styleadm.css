@@ -271,10 +271,12 @@ input:focus {
 	font-size: 13px;
 	color: red;
 	margin: 3px 3px 0 3px;
+    text-align: start;
 }
 
 .modal-input-group.fail input,
-.modal-input-group.fail select {
+.modal-input-group.fail select,
+.container__product-orders.fail input {
 	border: 1px solid red;
 }
 
@@ -501,7 +503,7 @@ input:focus {
 }
 
 .input__cant-product {
-    width: 80px;
+    width: 100px;
     text-align: center;
     padding-right: 5px;
 }

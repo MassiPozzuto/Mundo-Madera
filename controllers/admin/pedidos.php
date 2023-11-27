@@ -78,13 +78,17 @@ $sqlStates= "SELECT * FROM estados WHERE para != 'envio'";
 $resultStates = mysqli_query($conn, $sqlStates);
 $states = mysqli_fetch_all($resultStates, MYSQLI_ASSOC);
 
+// Consulta para obtener todas las provincias
+$sqlProvinces = "SELECT * FROM provincias";
+$resultProvinces = mysqli_query($conn, $sqlProvinces);
+$provinces = mysqli_fetch_all($resultProvinces, MYSQLI_ASSOC);
 
 // Consulta para obtener los productos deseados
 $sqlOrders = "SELECT 
                 pe.id,
                 e.descripcion AS estado,
                 CASE WHEN env.id IS NOT NULL THEN 'Con Envío' ELSE '-' END AS envio,
-                GROUP_CONCAT(' ', p.nombre, ': ', pp.cantidad) AS productos,
+                GROUP_CONCAT(' <b>', p.nombre, ':</b> ', pp.cantidad) AS productos,
                 CONCAT(pe.nombre, ' ', pe.apellido) AS nombre_completo,
                 pe.dni,
                 pe.telefono,

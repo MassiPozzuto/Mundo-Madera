@@ -4,7 +4,7 @@
 
 .modal-inputs-double {
     display: flex;
-    align-items: center;
+    align-items: start;
     justify-content: space-between;
     gap: 20px;
 }
@@ -16,4 +16,31 @@
 .container-check-delivery {
     padding-top: 20px;
     border-top: 1px dashed #d5d5d5;
+}
+
+
+.celd-products b {
+    font-weight: 600;
+}
+
+
+
+.container__product-orders {
+    display: grid;
+    grid-template-rows: auto;
+    grid-template-columns: 100px auto;
+    align-items: start;
+    gap: 0px 10px;
+}
+
+
+.container__info-delivery{
+    display: none;
+    flex-direction: column;
+    gap: 20px;
+}
+
+#modal__update,
+#modal__create {
+    padding-top: 10px;
 }
