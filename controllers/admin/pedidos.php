@@ -89,7 +89,7 @@ $provinces = mysqli_fetch_all($resultProvinces, MYSQLI_ASSOC);
 $sqlOrders = "SELECT 
                 pe.id,
                 e.descripcion AS estado,
-                CASE WHEN env.id IS NOT NULL THEN 'Con Envío' ELSE '-' END AS envio,
+                env.id AS id_envio,
                 GROUP_CONCAT(' <b>', p.nombre, ':</b> ', pp.cantidad) AS productos,
                 CONCAT(pe.nombre, ' ', pe.apellido) AS nombre_completo,
                 pe.dni,

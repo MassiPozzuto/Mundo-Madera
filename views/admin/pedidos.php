@@ -78,12 +78,19 @@
                 <tr class="container__table-row row-normal" id="row__order-<?php echo $order['id'] ?>">
                     <td class="container__table-celd celd-id"><?php echo $order['id'] ?></td>
                     <td class="container__table-celd celd-state"><?php echo $order['estado'] ?></td>
-                    <td class="container__table-celd celd-delivery"><?php echo $order['envio'] ?></td>
+                    <?php
+                    if ($order['id_envio'] == null) { ?>
+                        <td class="container__table-celd celd-delivery">-</td>
+                    <?php
+                    } else { ?>
+                        <td class="container__table-celd celd-delivery"><a href="envios.php?search=<?php echo $order['id_envio'] ?>&filterBy=all&allowAll=yes">Sí</a></td>
+                    <?php
+                    } ?>
                     <td class="container__table-celd celd-products"><?php echo $order['productos'] ?></td>
                     <td class="container__table-celd celd-name_surname"><?php echo $order['nombre_completo'] ?></td>
                     <td class="container__table-celd celd-dni"><?php echo $order['dni'] ?></td>
                     <td class="container__table-celd celd-tel"><?php echo $order['telefono'] ?></td>
-                    <td class="container__table-celd celd-creation"><?php echo date('d/m/Y', strtotime($order['fecha_creacion']))?></td>
+                    <td class="container__table-celd celd-creation"><?php echo date('d/m/Y', strtotime($order['fecha_creacion'])) ?></td>
                     <td class="container__table-celd celd-options">
                         <button type="button" class="btn-update btn__update" id="update-<?php echo $order['id'] ?>" title="Editar">
                             <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-edit" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
