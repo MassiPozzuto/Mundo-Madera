@@ -168,7 +168,7 @@
         <input type="number" id="update-id" class="modal-input" hidden>
 
         <div class="modal-input-group">
-            <label>Estado</label>
+            <label>Estado del envio</label>
             <select id="update-state" class="modal-input select-state">
                 <?php
                 foreach ($states as $key => $state) { ?>

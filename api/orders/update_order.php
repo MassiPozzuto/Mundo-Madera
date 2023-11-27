@@ -26,61 +26,61 @@ if ($id == null) {
 
 if ($name == null) {
     $isValid = false;
-    $errors['create-name'] = "Debe ingresar un nombre.";
+    $errors['update-name'] = "Debe ingresar un nombre.";
 } else if (strlen($name) > 35) {
     $isValid = false;
-    $errors['create-name'] = "Debe ingresar un nombre menor a 35 caracteres.";
+    $errors['update-name'] = "Debe ingresar un nombre menor a 35 caracteres.";
 }
 
 if ($surname == null) {
     $isValid = false;
-    $errors['create-surname'] = "Debe ingresar un apellido.";
+    $errors['update-surname'] = "Debe ingresar un apellido.";
 } else if (strlen($surname) > 35) {
     $isValid = false;
-    $errors['create-surname'] = "Debe ingresar un apellido menor a 35 caracteres.";
+    $errors['update-surname'] = "Debe ingresar un apellido menor a 35 caracteres.";
 }
 
 if (!preg_match('/^\d{7,8}$/', $dni)) {
     $isValid = false;
-    $errors['create-dni'] = "Debe ingresar un DNI válido.";
+    $errors['update-dni'] = "Debe ingresar un DNI válido.";
 }
 
 if (!preg_match('/^\d{8,}$/', $tel)) {
     $isValid = false;
-    $errors['create-tel'] = "Debe ingresar un telefono válido.";
+    $errors['update-tel'] = "Debe ingresar un telefono válido.";
 }
 
 if ($state == 0 || $state == null) {
     $isValid = false;
-    $errors['create-state'] = "Debe seleccionar un estado para el pedido.";
+    $errors['update-state'] = "Debe seleccionar un estado para el pedido.";
 }
 
 if ($delivery == true) {
     if ($province == 0 || $province == null) {
         $isValid = false;
-        $errors['create-province'] = "Debe seleccionar una provincia para el envio.";
+        $errors['update-province'] = "Debe seleccionar una provincia para el envio.";
     }
 
     if ($city == null) {
         $isValid = false;
-        $errors['create-city'] = "Debe ingresar una ciudad para el envio.";
+        $errors['update-city'] = "Debe ingresar una ciudad para el envio.";
     } else if (strlen($city) > 50) {
         $isValid = false;
-        $errors['create-city'] = "Debe ingresar una ciudad menor a 50 caracteres.";
+        $errors['update-city'] = "Debe ingresar una ciudad menor a 50 caracteres.";
     }
 
     if ($address == null) {
         $isValid = false;
-        $errors['create-address'] = "Debe ingresar una direccion de envio.";
+        $errors['update-address'] = "Debe ingresar una direccion de envio.";
     } else if (strlen($address) > 50) {
         $isValid = false;
-        $errors['create-address'] = "Debe ingresar una direccion menor a 50 caracteres.";
+        $errors['update-address'] = "Debe ingresar una direccion menor a 50 caracteres.";
     }
 }
 
 if (!$isValid) {
     $message['success'] = false;
-    $message['msj'] = "Error al intentar crear producto";
+    $message['msj'] = "Error al intentar editar orden";
     $message['errors'] = $errors;
     return print_r(json_encode($message));
 }

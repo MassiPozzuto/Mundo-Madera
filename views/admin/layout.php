@@ -26,7 +26,7 @@
   <link href="../../css/main.css" rel="stylesheet">
   <link rel="stylesheet" type="text/css" href="../../css/styleadm.css">
   <?php
-  if ($section ==  'login' || $section == 'pedidos' || $section == 'usuarios') { ?>
+  if ($section ==  'login' || $section == 'pedidos') { ?>
     <link href="../../css/<?php echo $section; ?>.css" rel="stylesheet">
   <?php
   } ?>

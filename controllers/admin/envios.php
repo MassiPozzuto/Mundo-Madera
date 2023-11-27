@@ -71,13 +71,8 @@ if (isset($_GET['page']) && $_GET['page'] > 1) {
 $page = $_GET['page'];
 
 
-// Consulta para obtener todas las categorías
-$sqlProducts = "SELECT * FROM productos WHERE productos.fecha_eliminacion IS NULL";
-$resultProducts = mysqli_query($conn, $sqlProducts);
-$products = mysqli_fetch_all($resultProducts, MYSQLI_ASSOC);
-
 // Consulta para obtener todas las provincias
-$sqlStates= "SELECT * FROM estados WHERE para != 'envio'";
+$sqlStates= "SELECT * FROM estados WHERE para != 'pedido'";
 $resultStates = mysqli_query($conn, $sqlStates);
 $states = mysqli_fetch_all($resultStates, MYSQLI_ASSOC);
 
