@@ -25,7 +25,7 @@ if ($_GET['filterBy'] != 'all') {
 }
 
 if (isset($_GET['search']) && !empty($_GET['search'])) {
-    $conditionSearch = "AND pe.nombre LIKE ?";
+    $conditionSearch = "AND (pe.nombre LIKE ? OR pe.dni LIKE ? OR pe.telefono LIKE ?)";
 } else {
     $conditionSearch = "";
 }
@@ -37,7 +37,6 @@ $total_registros_stmt = mysqli_prepare($conn, "SELECT COUNT(DISTINCT pe.id) as t
                                                 LEFT JOIN productos p ON pe.id = pp.id_producto
                                                WHERE 1 {$conditionDeleted} {$conditionFilterBy} {$conditionSearch}");
 
-
 // Definir los parámetros y sus tipos
 $paramTypes = "";
 if ($_GET['filterBy'] != 'all') {
@@ -45,7 +44,9 @@ if ($_GET['filterBy'] != 'all') {
     $params[] = $_GET['filterBy'];
 }
 if (!empty($_GET['search'])) {
-    $paramTypes .= "s";
+    $paramTypes .= "sss";
+    $params[] = '%'. $_GET['search'] . '%';
+    $params[] = '%' . $_GET['search'] . '%';
     $params[] = '%' . $_GET['search'] . '%';
 }
 // Agregar los parámetros en la llamada a mysqli_stmt_bind_param si es necesario
