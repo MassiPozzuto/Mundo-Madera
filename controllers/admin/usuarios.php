@@ -3,7 +3,7 @@ require('../../includes/config.php');
 
 
 if (isset($_GET['search']) && !empty($_GET['search'])) {
-    $conditionSearch = "AND (u.username LIKE ? OR u.nombre LIKE ? OR u.apellido LIKE ?)";
+    $conditionSearch = "AND (u.username LIKE ? OR u.nombre LIKE ? OR u.apellido LIKE ? OR u.id LIKE ?)";
 } else {
     $conditionSearch = "";
 }
@@ -17,7 +17,8 @@ $total_registros_stmt = mysqli_prepare($conn, "SELECT COUNT(DISTINCT u.id) as to
 // Definir los parámetros y sus tipos
 $paramTypes = "";
 if (!empty($_GET['search'])) {
-    $paramTypes .= "sss";
+    $paramTypes .= "ssss";
+    $params[] = '%' . $_GET['search'] . '%';
     $params[] = '%' . $_GET['search'] . '%';
     $params[] = '%' . $_GET['search'] . '%';
     $params[] = '%' . $_GET['search'] . '%';
