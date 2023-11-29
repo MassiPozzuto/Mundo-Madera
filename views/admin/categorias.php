@@ -16,6 +16,11 @@
         <div class="submenu__search-bar">
             <form method="GET" class="container__search-bar" action="">
                 <input type="search" name="search" placeholder="Buscar..." value="<?php echo (isset($_GET['search'])) ? $_GET['search'] : null; ?>">
+                <?php
+                if (isset($_GET['for']) && $_GET['for'] == 'id') { ?>
+                    <input type="text" name="for" value="<?php echo $_GET['for']; ?>" hidden>
+                <?php
+                } ?>
                 <input type="text" name="allowAll" value="<?php echo (isset($_GET['allowAll'])) ? $_GET['allowAll'] : 'no'; ?>" hidden>
                 <button type="submit">
                     <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-search" width="20" height="20" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">

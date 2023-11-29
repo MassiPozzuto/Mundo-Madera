@@ -9,6 +9,11 @@
         <div class="submenu__search-bar">
             <form method="GET" class="container__search-bar" action="">
                 <input type="search" name="search" placeholder="Buscar..." value="<?php echo (isset($_GET['search'])) ? $_GET['search'] : null; ?>">
+                <?php
+                if(isset($_GET['for']) && $_GET['for'] == 'id') { ?>
+                    <input type="text" name="for" value="<?php echo $_GET['for']; ?>" hidden>
+                <?php
+                } ?>
                 <input type="text" name="filterBy" value="<?php echo $_GET['filterBy'] ?>" hidden>
                 <input type="text" name="allowAll" value="<?php echo $_GET['allowAll'] ?>" hidden>
                 <button type="submit">
@@ -70,7 +75,7 @@
 
                 <tr class="container__table-row row-normal" id="row__delivery-<?php echo $delivery['id_envio'] ?>">
                     <td class="container__table-celd celd-id"><?php echo $delivery['id_envio'] ?></td>
-                    <td class="container__table-celd celd-id_order"><a href="pedidos.php?search=<?php echo $delivery['id_pedido'] ?>&filterBy=all&allowAll=yes"><?php echo $delivery['id_pedido'] ?></a></td>
+                    <td class="container__table-celd celd-id_order"><a href="pedidos.php?search=<?php echo $delivery['id_pedido'] ?>&for=id&filterBy=all&allowAll=yes"><?php echo $delivery['id_pedido'] ?></a></td>
                     <td class="container__table-celd celd-state_delivery"><?php echo $delivery['estado_envio'] ?></td>
                     <td class="container__table-celd celd-state_order"><?php echo $delivery['estado_pedido'] ?></td>
                     <td class="container__table-celd celd-province"><?php echo $delivery['provincia'] ?></td>

@@ -29,7 +29,6 @@ var selectsCreate = document.querySelectorAll('.select-product.create');
 
 selectsCreate.forEach(function (select) {
     $(select).on('change.select2', function () {
-        console.log("hola")
         agregarProducto(select, selectsCreate, 'create');
     });
 });
@@ -123,7 +122,7 @@ function createSelectProduct(products, typeModal) {
         `<div id="container__product-${counterProducts}">
             <div class="container__number-of-product">${(typeModal == 'create') ? selectsCreate.length + 1 : selectsUpdate.length + 1}.</div>
             <div class="container__product-orders ${typeModal}">
-                <input type="number" class="modal-input input__cant-product ${typeModal}" id="${typeModal}-product--number-${counterProducts}">
+                <input type="number" class="modal-input input__cant-product ${typeModal}" id="${typeModal}-product--number-${counterProducts}" >
                 <select class="modal-input select-product ${typeModal}" id="${typeModal}-product--select-${counterProducts}">
                     <option value="0" selected>Seleccione un producto</option>`
 

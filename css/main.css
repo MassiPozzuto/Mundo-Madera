@@ -275,7 +275,7 @@ header {
 
 .celd-id_order a,
 .celd-delivery a {
-    color: green;
+    color: #2B7841;
 }
 .celd-id_order a:hover,
 .celd-delivery a:hover {
@@ -288,7 +288,18 @@ header {
     padding-left: 22px;
     margin: 0;
     text-align: start;
-    list-style-type: circle;
+}
+
+.table-celd-list a,
+td a {
+    color: #2B7841;
+    font-weight: 600;
+}
+
+.table-celd-list a:hover,
+td a:hover {
+    color: #286339;
+    text-decoration: underline;
 }
 /* FIN ESTILOS TABLAS */
 

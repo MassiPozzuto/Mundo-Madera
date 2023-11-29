@@ -11,7 +11,11 @@ if ($_GET['allowAll'] == 'yes') {
 }
 
 if (isset($_GET['search']) && !empty($_GET['search'])) {
-    $conditionSearch = "AND c.nombre LIKE ?";
+    if (isset($_GET['for']) && $_GET['for'] == 'id') {
+        $conditionSearch = "AND c.id = ?";
+    } else {
+        $conditionSearch = "AND c.nombre LIKE ? OR c.id = ?";
+    }
 } else {
     $conditionSearch = "";
 }
@@ -23,8 +27,14 @@ $total_registros_stmt = mysqli_prepare($conn, "SELECT COUNT(*) as total FROM cat
 $paramTypes = "";
 
 if (!empty($_GET['search'])) {
-    $paramTypes .= "s";
-    $params[] = '%' . $_GET['search'] . '%';
+    if (isset($_GET['for']) && $_GET['for'] == 'id') {
+        $paramTypes .= "s";
+        $params[] = $_GET['search'];
+    } else {
+        $paramTypes .= "ss";
+        $params[] = '%' . $_GET['search'] . '%';
+        $params[] = $_GET['search'] ;
+    }
 }
 
 // Agregar los parámetros en la llamada a mysqli_stmt_bind_param si es necesario

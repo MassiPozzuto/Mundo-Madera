@@ -25,7 +25,11 @@ if ($_GET['filterBy'] != 'all') {
 }
 
 if (isset($_GET['search']) && !empty($_GET['search'])) {
-    $conditionSearch = "AND (pe.id LIKE ? OR pe.nombre LIKE ? OR pe.dni LIKE ? OR pe.telefono LIKE ?)";
+    if (isset($_GET['for']) && $_GET['for'] == 'id') {
+        $conditionSearch = "AND pe.id = ?";
+    } else {
+        $conditionSearch = "AND (pe.id = ? OR pe.nombre LIKE ? OR pe.dni LIKE ? OR pe.telefono LIKE ?)";
+    }
 } else {
     $conditionSearch = "";
 }
@@ -44,11 +48,16 @@ if ($_GET['filterBy'] != 'all') {
     $params[] = $_GET['filterBy'];
 }
 if (!empty($_GET['search'])) {
-    $paramTypes .= "ssss";
-    $params[] = '%'. $_GET['search'] . '%';
-    $params[] = '%' . $_GET['search'] . '%';
-    $params[] = '%' . $_GET['search'] . '%';
-    $params[] = '%' . $_GET['search'] . '%';
+    if (isset($_GET['for']) && $_GET['for'] == 'id') {
+        $paramTypes .= "s";
+        $params[] = $_GET['search'];
+    } else {
+        $paramTypes .= "ssss";
+        $params[] = $_GET['search'];
+        $params[] = '%' . $_GET['search'] . '%';
+        $params[] = '%' . $_GET['search'] . '%';
+        $params[] = '%' . $_GET['search'] . '%';
+    }
 }
 // Agregar los parámetros en la llamada a mysqli_stmt_bind_param si es necesario
 if (!empty($params)) {
@@ -90,7 +99,7 @@ $sqlOrders = "SELECT
                 pe.id,
                 e.descripcion AS estado,
                 env.id AS id_envio,
-                GROUP_CONCAT('<b>', p.nombre, ':</b> ', pp.cantidad) AS productos,
+                GROUP_CONCAT(p.nombre, ':', pp.cantidad, ':', p.id) AS productos,
                 CONCAT(pe.nombre, ' ', pe.apellido) AS nombre_completo,
                 pe.dni,
                 pe.telefono,
@@ -120,6 +129,12 @@ $rowOrders = mysqli_fetch_all($resultOrders, MYSQLI_ASSOC);
 
 foreach($rowOrders as $key => $order){
     $rowOrders[$key]['productos'] = explode(",", $order['productos']);
+
+    foreach($rowOrders[$key]['productos'] as $key2 => $orderProduct){
+        $aux = explode(":", $orderProduct);
+        $orderProduct = "<a href='productos.php?search=" . $aux[2] . "&for=id&allowAll=yes'>" . $aux[0] . ":</a> " . $aux[1];
+        $rowOrders[$key]['productos'][$key2] = $orderProduct;
+    }
 }
 
 $title = "Pedidos";

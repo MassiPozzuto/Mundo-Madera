@@ -25,7 +25,11 @@ if($_GET['filterBy'] != 'all'){
 }
 
 if(isset($_GET['search']) && !empty($_GET['search'])){
-    $conditionSearch = "AND p.nombre LIKE ?";
+    if(isset($_GET['for']) && $_GET['for'] == 'id'){
+        $conditionSearch = "AND p.id = ?";   
+    } else {
+        $conditionSearch = "AND p.nombre LIKE ? OR p.id = ?";
+    }
 } else {
     $conditionSearch = "";
 }
@@ -44,8 +48,14 @@ if ($_GET['filterBy'] != 'all') {
     $params[] = $_GET['filterBy'];
 }
 if (!empty($_GET['search'])) {
-    $paramTypes .= "s";
-    $params[] = '%' . $_GET['search'] . '%';
+    if (isset($_GET['for']) && $_GET['for'] == 'id') {
+        $paramTypes .= "s";
+        $params[] = $_GET['search'];
+    } else {
+        $paramTypes .= "ss";
+        $params[] = '%' . $_GET['search'] . '%';
+        $params[] = $_GET['search'];
+    }
 }
 // Agregar los parámetros en la llamada a mysqli_stmt_bind_param si es necesario
 if (!empty($params)) {
@@ -74,7 +84,7 @@ $categories = mysqli_fetch_all($resultCategories, MYSQLI_ASSOC);
 
 
 // Consulta para obtener los productos deseados
-$sqlProducts = "SELECT p.*, GROUP_CONCAT(' ', c.nombre) AS categorias
+$sqlProducts = "SELECT p.*, GROUP_CONCAT(c.nombre, ':', c.id) AS categorias
                 FROM productos p
                 LEFT JOIN categoria_producto cp ON cp.id_producto = p.id 
                 LEFT JOIN categorias c ON c.id = cp.id_categoria 
@@ -94,6 +104,19 @@ mysqli_stmt_bind_param($stmtProducts, $paramTypes, ...$params);
 mysqli_stmt_execute($stmtProducts);
 $resultProducts = mysqli_stmt_get_result($stmtProducts);
 $rowProducts = mysqli_fetch_all($resultProducts, MYSQLI_ASSOC);
+
+foreach ($rowProducts as $key => $product) {
+    if(!empty($product['categorias'])){
+        $rowProducts[$key]['categorias'] = explode(",", $product['categorias']);
+        
+        foreach ($rowProducts[$key]['categorias'] as $key2 => $productCategory) {
+            $aux = explode(":", $productCategory);
+            $productCategory = "<a href='categorias.php?search=" . $aux[1] . "&for=id&allowAll=yes'>" . $aux[0] . "</a>";
+            $rowProducts[$key]['categorias'][$key2] = $productCategory;
+        }
+    }
+
+}
 
 $title = "Productos";
 $section = "productos";

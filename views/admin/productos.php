@@ -16,6 +16,11 @@
         <div class="submenu__search-bar">
             <form method="GET" class="container__search-bar" action="">
                 <input type="search" name="search" placeholder="Buscar..." value="<?php echo (isset($_GET['search'])) ? $_GET['search'] : null; ?>">
+                <?php
+                if (isset($_GET['for']) && $_GET['for'] == 'id') { ?>
+                    <input type="text" name="for" value="<?php echo $_GET['for']; ?>" hidden>
+                <?php
+                } ?>
                 <input type="text" name="filterBy" value="<?php echo $_GET['filterBy'] ?>" hidden>
                 <input type="text" name="allowAll" value="<?php echo $_GET['allowAll'] ?>" hidden>
                 <button type="submit">
@@ -75,7 +80,24 @@
                 <tr class="container__table-row row-normal" id="row__product-<?php echo $product['id'] ?>">
                     <td class="container__table-celd celd-id"><?php echo $product['id'] ?></td>
                     <td class="container__table-celd celd-name"><?php echo $product['nombre'] ?></td>
-                    <td class="container__table-celd celd-type"><?php echo ($product['categorias'] != null) ? $product['categorias'] : 'No tiene categorías'; ?></td>
+                    <td class="container__table-celd celd-type">
+                        <?php
+                        if (!empty($product['categorias'])) { ?>
+                            <ul class="table-celd-list">
+                                <?php
+                                foreach ($product['categorias'] as $productCategory) { ?>
+                                    <li><?php echo $productCategory ?></li>
+                                <?php
+                                } ?>
+                            </ul>
+                        <?php
+                        } else { ?>
+                            <ul class="table-celd-list">
+                                <li>No tiene categorías</li>
+                            </ul>
+                        <?php
+                        } ?>
+                    </td>
                     <td class="container__table-celd celd-price">$<?php echo $product['precio'] ?></td>
                     <td class="container__table-celd celd-stock"><?php echo $product['stock'] ?></td>
                     <td class="container__table-celd celd-options">

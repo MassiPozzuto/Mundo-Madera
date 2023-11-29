@@ -150,9 +150,23 @@ document.getElementById('update-submit').addEventListener('click', (e) => {
                 if (response.data.success) {
                     //location.reload();
                     alertMsj('El producto fue editado correctamente', 'success')
-
+                    
                     let rowProduct = document.getElementById(`row__product-${id.value}`)
-                    rowProduct.querySelector('.celd-type').innerText = Array.from(newCategory.selectedOptions).map(option => option.innerText).join(', ');
+                    
+                    newCategoriesArray = Array.from(newCategory.selectedOptions).map(option => option.innerText)
+                    let categoriesHTML = `<ul class="table-celd-list">`;
+                    if (newCategoriesArray.length > 0) {
+                        newCategoriesArray.forEach(newCategory => {
+                            categoriesHTML += `<li><a href="categorias.php?search=${newCategory}&allowAll=yes">${newCategory}</a></li>`
+                        })
+                    } else {
+                        categoriesHTML += `<li>No tiene categorías</li>`
+                    }
+                    categoriesHTML += `</ul>`
+                    
+                    rowProduct.querySelector('.celd-type').innerHTML = categoriesHTML
+
+
                     rowProduct.querySelector('.celd-name').innerText = newName.value
                     rowProduct.querySelector('.celd-price').innerText = "$" + newPrice.value
                     rowProduct.querySelector('.celd-stock').innerText = newStock.value

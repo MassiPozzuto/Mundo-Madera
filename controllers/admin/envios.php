@@ -24,7 +24,11 @@ if ($_GET['allowAll'] == 'yes') {
 
 
 if (isset($_GET['search']) && !empty($_GET['search'])) {
-    $conditionSearch = "AND (estados_envio.descripcion LIKE ? OR pedidos.id LIKE ? OR envios.id LIKE ? OR envios.direccion LIKE ?)";
+    if (isset($_GET['for']) && $_GET['for'] == 'id') {
+        $conditionSearch = "AND envios.id = ?";
+    } else {
+        $conditionSearch = "AND (estados_envio.descripcion LIKE ? OR pedidos.id = ? OR envios.id = ? OR envios.direccion LIKE ?)";
+    }
 } else {
     $conditionSearch = "";
 }
@@ -46,11 +50,16 @@ if ($_GET['filterBy'] != 'all') {
     $params[] = $_GET['filterBy'];
 }
 if (!empty($_GET['search'])) {
-    $paramTypes .= "ssss";
-    $params[] = '%'. $_GET['search'] . '%';
-    $params[] = '%' . $_GET['search'] . '%';
-    $params[] = '%' . $_GET['search'] . '%';
-    $params[] = '%' . $_GET['search'] . '%';
+    if (isset($_GET['for']) && $_GET['for'] == 'id') {
+        $paramTypes .= "s";
+        $params[] = $_GET['search'];
+    } else {
+        $paramTypes .= "ssss";
+        $params[] = '%'. $_GET['search'] . '%';
+        $params[] = $_GET['search'];
+        $params[] = $_GET['search'];
+        $params[] = '%' . $_GET['search'] . '%';
+    }
 }
 // Agregar los parámetros en la llamada a mysqli_stmt_bind_param si es necesario
 if (!empty($params)) {

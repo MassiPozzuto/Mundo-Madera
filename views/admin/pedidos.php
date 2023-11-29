@@ -16,6 +16,11 @@
         <div class="submenu__search-bar">
             <form method="GET" class="container__search-bar" action="">
                 <input type="search" name="search" placeholder="Buscar..." value="<?php echo (isset($_GET['search'])) ? $_GET['search'] : null; ?>">
+                <?php
+                if (isset($_GET['for']) && $_GET['for'] == 'id') { ?>
+                    <input type="text" name="for" value="<?php echo $_GET['for']; ?>" hidden>
+                <?php
+                } ?>
                 <input type="text" name="filterBy" value="<?php echo $_GET['filterBy'] ?>" hidden>
                 <input type="text" name="allowAll" value="<?php echo $_GET['allowAll'] ?>" hidden>
                 <button type="submit">
@@ -83,14 +88,14 @@
                         <td class="container__table-celd celd-delivery">-</td>
                     <?php
                     } else { ?>
-                        <td class="container__table-celd celd-delivery"><a href="envios.php?search=<?php echo $order['id_envio'] ?>&filterBy=all&allowAll=yes">Sí</a></td>
+                        <td class="container__table-celd celd-delivery"><a href="envios.php?search=<?php echo $order['id_envio'] ?>&for=id&filterBy=all&allowAll=yes">Sí</a></td>
                     <?php
                     } ?>
                     <td class="container__table-celd celd-products">
                         <ul class="table-celd-list">
-                            <?php 
-                            foreach ($order['productos'] as $products) { ?>
-                                <li><?php echo $products ?></li>
+                            <?php
+                            foreach ($order['productos'] as $orderProducts) { ?>
+                                <li><?php echo $orderProducts ?></li>
                             <?php
                             } ?>
                         </ul>
