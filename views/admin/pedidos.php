@@ -73,7 +73,7 @@
 
         <tbody class="container__table-body" id="table_body">
             <?php
-            foreach ($rowOrders as $key => $order) { ?>
+            foreach ($rowOrders as $order) { ?>
 
                 <tr class="container__table-row row-normal" id="row__order-<?php echo $order['id'] ?>">
                     <td class="container__table-celd celd-id"><?php echo $order['id'] ?></td>
@@ -86,7 +86,15 @@
                         <td class="container__table-celd celd-delivery"><a href="envios.php?search=<?php echo $order['id_envio'] ?>&filterBy=all&allowAll=yes">Sí</a></td>
                     <?php
                     } ?>
-                    <td class="container__table-celd celd-products"><?php echo $order['productos'] ?></td>
+                    <td class="container__table-celd celd-products">
+                        <ul class="table-celd-list">
+                            <?php 
+                            foreach ($order['productos'] as $products) { ?>
+                                <li><?php echo $products ?></li>
+                            <?php
+                            } ?>
+                        </ul>
+                    </td>
                     <td class="container__table-celd celd-name_surname"><?php echo $order['nombre_completo'] ?></td>
                     <td class="container__table-celd celd-dni"><?php echo $order['dni'] ?></td>
                     <td class="container__table-celd celd-tel"><?php echo $order['telefono'] ?></td>

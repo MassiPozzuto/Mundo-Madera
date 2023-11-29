@@ -90,7 +90,7 @@ $sqlOrders = "SELECT
                 pe.id,
                 e.descripcion AS estado,
                 env.id AS id_envio,
-                GROUP_CONCAT(' <b>', p.nombre, ':</b> ', pp.cantidad) AS productos,
+                GROUP_CONCAT('<b>', p.nombre, ':</b> ', pp.cantidad) AS productos,
                 CONCAT(pe.nombre, ' ', pe.apellido) AS nombre_completo,
                 pe.dni,
                 pe.telefono,
@@ -118,6 +118,9 @@ mysqli_stmt_execute($stmtOrders);
 $resultOrders = mysqli_stmt_get_result($stmtOrders);
 $rowOrders = mysqli_fetch_all($resultOrders, MYSQLI_ASSOC);
 
+foreach($rowOrders as $key => $order){
+    $rowOrders[$key]['productos'] = explode(",", $order['productos']);
+}
 
 $title = "Pedidos";
 $section = "pedidos";

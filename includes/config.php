@@ -17,13 +17,24 @@ if(!isset($_SESSION['user'])){
         $resultLogin = mysqli_query($conn, $sqlLogin);
         if (mysqli_num_rows($resultLogin) === 1) {
             $_SESSION['user'] = mysqli_fetch_assoc($resultLogin);
+        } else {
+            if (!strpos("http://$_SERVER[HTTP_HOST]$_SERVER[REQUEST_URI]", "login.php")) {
+                header("Location: login.php");
+            }
         }
     } else {
         if (!strpos("http://$_SERVER[HTTP_HOST]$_SERVER[REQUEST_URI]", "login.php")) {
             header("Location: login.php");
         } 
     }
-
+} else {
+    //Verifico la validez de la sesión
+    $sqlLogin = "SELECT usuarios.* FROM usuarios 
+                      WHERE username='" . $_SESSION['user']['username'] . "' AND password='" . $_SESSION['user']['password'] . "'";
+    $resultLogin = mysqli_query($conn, $sqlLogin);
+    if (mysqli_num_rows($resultLogin) !== 1) {
+        header("Location: logout.php");
+    }
 }
 
 // Change character set to utf8

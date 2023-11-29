@@ -2,19 +2,14 @@
     max-width: 650px;
 }
 
-
-
 .container-check-delivery {
     padding-top: 20px;
     border-top: 1px dashed #d5d5d5;
 }
 
-
 .celd-products b {
     font-weight: 600;
 }
-
-
 
 .container__product-orders {
     display: grid;
@@ -23,7 +18,6 @@
     align-items: start;
     gap: 0px 10px;
 }
-
 
 .container__info-delivery{
     display: none;
