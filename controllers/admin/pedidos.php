@@ -18,7 +18,7 @@ if ($_GET['filterBy'] != 'all') {
     $conditionFilterBy = "AND  pe.id IN (
                             SELECT pp.id_pedido
                             FROM pedido_producto pp
-                            WHERE pp.id_pedido = ?
+                            WHERE pp.id_producto = ?
                         )";
 } else {
     $conditionFilterBy = "";
