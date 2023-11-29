@@ -23,8 +23,7 @@
   <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/i18n/es.js"></script>
   <!-- CSS -->
-  <link href="../../css/main.css" rel="stylesheet">
-  <link rel="stylesheet" type="text/css" href="../../css/styleadm.css">
+  <link href="../../css/main.css" rel="stylesheet" type="text/css">
   <?php
   if ($section ==  'login' || $section == 'pedidos') { ?>
     <link href="../../css/<?php echo $section; ?>.css" rel="stylesheet">
