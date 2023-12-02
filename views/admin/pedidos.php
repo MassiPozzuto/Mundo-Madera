@@ -114,6 +114,7 @@
                             </svg>
                         </button>
                         <?php
+                        //Boton entregar/recuperar
                         if ($order['fecha_entrega'] == null) { ?>
                             <button type="button" class="btn-deliver btn__deliver" id="deliver__order-<?php echo $order['id'] ?>" title="Entregado">
                                 <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-check" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
@@ -124,10 +125,31 @@
                         <?php
                         } else { ?>
                             <button type="button" class="btn-deliver delivered btn__deliver" id="deliver__order-<?php echo $order['id'] ?>" title="Recuperar">
-                                <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-x" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-arrow-back-up" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
                                     <path stroke="none" d="M0 0h24v24H0z" fill="none" />
-                                    <path d="M18 6l-12 12" />
-                                    <path d="M6 6l12 12" />
+                                    <path d="M9 14l-4 -4l4 -4" />
+                                    <path d="M5 10h11a4 4 0 1 1 0 8h-1" />
+                                </svg>
+                            </button>
+                        <?php
+                        } ?>
+                        <?php
+                        //Boton cancelar/recuperar
+                        if ($order['fecha_cancelacion'] == null) { ?>
+                            <button type="button" class="btn-cancel btn__cancel" id="cancel__order-<?php echo $order['id'] ?>" title="Cancelar">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-ban" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                                    <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+                                    <path d="M12 12m-9 0a9 9 0 1 0 18 0a9 9 0 1 0 -18 0" />
+                                    <path d="M5.7 5.7l12.6 12.6" />
+                                </svg>
+                            </button>
+                        <?php
+                        } else { ?>
+                            <button type="button" class="btn-cancel canceled btn__cancel" id="cancel__order-<?php echo $order['id'] ?>" title="Recuperar">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-arrow-back-up" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                                    <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+                                    <path d="M9 14l-4 -4l4 -4" />
+                                    <path d="M5 10h11a4 4 0 1 1 0 8h-1" />
                                 </svg>
                             </button>
                         <?php
@@ -240,7 +262,11 @@
             <select id="create-state" class="modal-input select-state">
                 <?php
                 foreach ($states as $key => $state) { ?>
-                    <option value="<?php echo $state['id'] ?>"><?php echo $state['descripcion'] ?></option>
+                    <?php 
+                    if($state['para'] != 'todos') { ?>
+                        <option value="<?php echo $state['id'] ?>"><?php echo $state['descripcion'] ?></option>
+                    <?php 
+                    } ?>
                 <?php
                 } ?>
             </select>
@@ -355,7 +381,7 @@
             <select id="update-state" class="modal-input select-state">
                 <?php
                 foreach ($states as $key => $state) { ?>
-                    <option value="<?php echo $state['id'] ?>"><?php echo $state['descripcion'] ?></option>
+                    <option value="<?php echo $state['id'] ?>" <?php echo ($state['para'] != 'pedido') ? 'hidden disabled' : null; ?>><?php echo $state['descripcion'] ?></option>
                 <?php
                 } ?>
             </select>

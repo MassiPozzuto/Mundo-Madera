@@ -388,7 +388,15 @@ function clearModalUpdate(formData) {
                 document.getElementById('update-dni').value = response.data.order.dni
                 document.getElementById('update-tel').value = response.data.order.telefono
                 
+                
                 $('#update-state').val(response.data.order.id_estado).trigger('change')
+
+                //Si el pedido esta cancelado o entregado hago que no puedan editar su estado
+                if (response.data.order.fecha_entrega == null && response.data.order.fecha_cancelacion == null) {
+                    $('#update-state').prop('disabled', false).trigger('select2:close');
+                } else {
+                    $('#update-state').prop('disabled', true).trigger('select2:close');
+                }
 
                 //Productos
                 var products = response.data.order.productos.split(",");
@@ -638,10 +646,10 @@ function deliverItem(formData, button) {
                         //Si la accion fue eliminar el pedido
                         button.classList.add('delivered')
                         button.innerHTML =
-                            `<svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-x" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
-                                <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
-                                <path d="M18 6l-12 12" />
-                                <path d="M6 6l12 12" />
+                            `<svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-arrow-back-up" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                                <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+                                <path d="M9 14l-4 -4l4 -4" />
+                                <path d="M5 10h11a4 4 0 1 1 0 8h-1" />
                             </svg>`
                         button.parentNode.parentNode.querySelector('.celd-state').innerText = 'Entregado'
                     } else {
@@ -651,6 +659,51 @@ function deliverItem(formData, button) {
                             `<svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-check" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
                                 <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
                                 <path d="M5 12l5 5l10 -10" />
+                            </svg>`
+                        button.parentNode.parentNode.querySelector('.celd-state').innerText = 'En proceso'
+                    }
+                }
+            } else {
+                //No se pudo eliminar el pedido
+                alertMsj(response.data.msj, 'error')
+            }
+        })
+        .catch(error => {
+            alertMsj('Ocurrió un error inesperado. Intentelo más tarde', 'error')
+            console.log("Error atrapado:", error);
+        });
+}
+
+
+//CANCELAR PEDIDO
+function cancelItem(formData, button) {
+    axios.post('../../api/orders/cancel_order.php', formData)
+        .then(response => {
+            // Manejar la respuesta exitosa aquí
+            console.log(response.data)
+
+            if (response.data.success) {
+                //Pedido eliminado correctamente
+                alertMsj(response.data.msj, 'success')
+
+                if (response.data.success) {
+                    if (response.data.action == 'canceled') {
+                        //Si la accion fue eliminar el pedido
+                        button.classList.add('canceled')
+                        button.innerHTML =
+                            `<svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-arrow-back-up" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                                <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+                                <path d="M9 14l-4 -4l4 -4" />
+                                <path d="M5 10h11a4 4 0 1 1 0 8h-1" />
+                            </svg>`
+                        button.parentNode.parentNode.querySelector('.celd-state').innerText = 'Cancelado'
+                    } else {
+                        //Si la accion fue recuperar el pedido
+                        button.classList.remove('canceled')
+                        button.innerHTML =
+                            `<svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-ban" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                                <path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M12 12m-9 0a9 9 0 1 0 18 0a9 9 0 1 0 -18 0" />
+                                <path d="M5.7 5.7l12.6 12.6" />
                             </svg>`
                         button.parentNode.parentNode.querySelector('.celd-state').innerText = 'En proceso'
                     }

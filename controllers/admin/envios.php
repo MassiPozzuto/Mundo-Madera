@@ -19,7 +19,7 @@ if (!isset($_GET['allowAll'])) {
 if ($_GET['allowAll'] == 'yes') {
     $conditionDeleted = "";
 } else {
-    $conditionDeleted = "AND pedidos.fecha_entrega IS NULL";
+    $conditionDeleted = "AND pedidos.fecha_entrega IS NULL AND pedidos.fecha_cancelacion IS NULL";
 }
 
 
@@ -93,23 +93,23 @@ $provinces = mysqli_fetch_all($resultProvinces, MYSQLI_ASSOC);
 
 // Consulta para obtener los productos deseados
 $sqlDeliveries = "SELECT
-                envios.id AS id_envio,
-                pedidos.id AS id_pedido,
-                estados_pedido.descripcion AS estado_pedido,
-                estados_envio.id AS id_estado_envio,
-                estados_envio.descripcion AS estado_envio,
-                provincias.nombre AS provincia,
-                envios.direccion,
-                envios.ciudad,
-                pedidos.fecha_creacion
-            FROM envios
-            JOIN pedidos ON envios.id_pedido = pedidos.id
-            JOIN estados AS estados_pedido ON pedidos.id_estado = estados_pedido.id
-            JOIN estados AS estados_envio ON envios.id_estado = estados_envio.id
-            JOIN provincias ON envios.id_provincia = provincias.id
-            WHERE 1 {$conditionDeleted} {$conditionFilterBy} {$conditionSearch}
-            GROUP BY envios.id
-            LIMIT ?, " . CANT_REG_PAG;
+                    envios.id AS id_envio,
+                    pedidos.id AS id_pedido,
+                    estados_pedido.descripcion AS estado_pedido,
+                    estados_envio.id AS id_estado_envio,
+                    estados_envio.descripcion AS estado_envio,
+                    provincias.nombre AS provincia,
+                    envios.direccion,
+                    envios.ciudad,
+                    pedidos.fecha_creacion
+                FROM envios
+                JOIN pedidos ON envios.id_pedido = pedidos.id
+                JOIN estados AS estados_pedido ON pedidos.id_estado = estados_pedido.id
+                JOIN estados AS estados_envio ON envios.id_estado = estados_envio.id
+                JOIN provincias ON envios.id_provincia = provincias.id
+                WHERE 1 {$conditionDeleted} {$conditionFilterBy} {$conditionSearch}
+                GROUP BY envios.id
+                LIMIT ?, " . CANT_REG_PAG;
 
 
 $stmtDeliveries = mysqli_prepare($conn, $sqlDeliveries);

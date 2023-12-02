@@ -272,6 +272,18 @@ header {
 		background-color: #00AF00;
 	}
 
+.btn-cancel {
+    margin-left: 5px;
+    color: red;
+}
+    .btn-cancel.canceled {
+        background-color: red;
+        color: white;
+    }
+    .btn-cancel.canceled:hover {
+		background-color: #DF0000;
+	}
+
 
 .celd-id_order a,
 .celd-delivery a {
@@ -343,6 +355,17 @@ td a:hover {
         text-align: start;
     }
 
+.modal-inputs-double {
+    display: flex;
+    align-items: start;
+    justify-content: space-between;
+    gap: 20px;
+}
+
+.modal-inputs-double div{
+    width: 100%;
+}
+
 .modal-input-group {
 	display: flex;
     flex-direction: column;
@@ -392,9 +415,7 @@ input:focus {
     width: fit-content;
 }
 
-.modal-inputs-double div{
-    width: 100%;
-}
+
 
 /* Estilos select2 */
 .select2-container {
@@ -641,12 +662,6 @@ input:focus {
     margin: 0;
   }
 
-  .modal-inputs-double {
-    display: flex;
-    align-items: start;
-    justify-content: space-between;
-    gap: 20px;
-}
 /* Oculta las flechas del input number */
 
 /* ESTILOS MODALS Y FORMULARIOS (SOLAMENTE HAY FORMS EN LOS MODALS) */

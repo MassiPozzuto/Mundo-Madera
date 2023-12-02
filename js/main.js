@@ -84,7 +84,7 @@ window.onload = function () {
     // Agrega un escuchador de eventos al contenedor
     tableBody.addEventListener('click', function (event) {
         // Buscar el botón padre, que debería ser el botón de actualización o eliminación
-        var button = event.target.closest('.btn__update, .btn__delete, .btn__deliver');
+        var button = event.target.closest('.btn__update, .btn__delete, .btn__deliver, .btn__cancel');
     
         if (button) {
             const idItem = button.id.split("-")[1]
@@ -99,7 +99,11 @@ window.onload = function () {
                 //ELIMINAR ITEM
                 deleteItem(formData, button)
             } else if (button.classList.contains('btn__deliver')) {
+                //ENTREGAR ITEM
                 deliverItem(formData, button)
+            } else if (button.classList.contains('btn__cancel')) {
+                //CANCELAR ITEM
+                cancelItem(formData, button)
             }
         }
     });

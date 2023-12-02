@@ -24,6 +24,15 @@ if ($id == null) {
     $errors['general'] = "El ID de la orden no puede estar vacío.";
 }
 
+// Obtener pedido
+$sqlGetOrder = "SELECT * FROM pedidos WHERE id = ?";
+$stmtGetOrder = mysqli_prepare($conn, $sqlGetOrder);
+mysqli_stmt_bind_param($stmtGetOrder, "i", $id);
+mysqli_stmt_execute($stmtGetOrder);
+$order = mysqli_stmt_get_result($stmtGetOrder);
+$order = mysqli_fetch_assoc($order);
+mysqli_stmt_close($stmtGetOrder);
+
 if ($name == null) {
     $isValid = false;
     $errors['update-name'] = "Debe ingresar un nombre.";
@@ -50,9 +59,13 @@ if (!preg_match('/^\d{8,}$/', $tel)) {
     $errors['update-tel'] = "Debe ingresar un telefono válido.";
 }
 
-if ($state == 0 || $state == null) {
-    $isValid = false;
-    $errors['update-state'] = "Debe seleccionar un estado para el pedido.";
+if($order['fecha_entrega'] == null && $order['fecha_cancelacion'] == null) {
+    if ($state == 0 || $state == null) {
+        $isValid = false;
+        $errors['update-state'] = "Debe seleccionar un estado para el pedido.";
+    }
+} else {
+    $state = ($order['fecha_entrega'] != null) ? 7 : 4;
 }
 
 if ($delivery == true) {
@@ -112,7 +125,7 @@ try {
     while ($row = mysqli_fetch_assoc($currentOrderProducts)) {
         $currentProducts[$row['id_producto']] = $row['cantidad'];
     }
-    
+
     // Comparar productos actuales con nuevos productos
     foreach ($currentProducts as $productId => $currentQuantity) {
         if (!isset($products[$productId])) {

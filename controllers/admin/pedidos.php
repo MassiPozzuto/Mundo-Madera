@@ -7,7 +7,7 @@ if (!isset($_GET['allowAll'])) {
 if ($_GET['allowAll'] == 'yes') {
     $conditionDeleted = "";
 } else {
-    $conditionDeleted = "AND pe.fecha_entrega IS NULL";
+    $conditionDeleted = "AND pe.fecha_entrega IS NULL AND pe.fecha_cancelacion IS NULL";
 }
 
 
@@ -37,8 +37,9 @@ if (isset($_GET['search']) && !empty($_GET['search'])) {
 // Obtener el total de registros para calcular el número de páginas
 $total_registros_stmt = mysqli_prepare($conn, "SELECT COUNT(DISTINCT pe.id) as total
                                                 FROM pedidos pe
-                                                LEFT JOIN pedido_producto pp ON pp.id_pedido = pe.id
-                                                LEFT JOIN productos p ON pe.id = pp.id_producto
+                                                INNER JOIN pedido_producto pp ON pp.id_pedido = pe.id
+                                                INNER JOIN productos p ON pe.id = pp.id_producto
+                                                INNER JOIN estados e ON pe.id_estado = e.id
                                                WHERE 1 {$conditionDeleted} {$conditionFilterBy} {$conditionSearch}");
 
 // Definir los parámetros y sus tipos
@@ -104,7 +105,8 @@ $sqlOrders = "SELECT
                 pe.dni,
                 pe.telefono,
                 pe.fecha_creacion,
-                pe.fecha_entrega
+                pe.fecha_entrega,
+                pe.fecha_cancelacion
             FROM pedidos pe
             INNER JOIN estados e ON pe.id_estado = e.id
             INNER JOIN pedido_producto pp ON pe.id = pp.id_pedido

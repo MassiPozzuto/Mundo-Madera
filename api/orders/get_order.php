@@ -16,6 +16,7 @@ $sql = "SELECT
             p.telefono,
             p.fecha_creacion,
             p.fecha_entrega,
+            p.fecha_cancelacion,
             GROUP_CONCAT(CONCAT(pp.id_producto, ':', pp.cantidad) SEPARATOR ',') AS productos,
             e.id AS id_envio,
             e.id_provincia,
