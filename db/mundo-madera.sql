@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 27-11-2023 a las 13:12:12
+-- Tiempo de generación: 19-12-2023 a las 03:15:56
 -- Versión del servidor: 10.4.22-MariaDB
 -- Versión de PHP: 8.1.2
 
@@ -65,10 +65,11 @@ CREATE TABLE `categoria_producto` (
 
 INSERT INTO `categoria_producto` (`id_categoria`, `id_producto`) VALUES
 (1, 40),
+(2, 36),
 (2, 39),
 (2, 40),
 (4, 37),
-(8, 39);
+(5, 36);
 
 -- --------------------------------------------------------
 
@@ -90,7 +91,8 @@ CREATE TABLE `envios` (
 --
 
 INSERT INTO `envios` (`id`, `id_pedido`, `id_estado`, `id_provincia`, `direccion`, `ciudad`) VALUES
-(11, 42, 5, 1, 'Av. Garay 2235 4° F', 'CABA');
+(11, 42, 5, 2, 'Av. Garay 2232 4° F', 'Lanus'),
+(13, 44, 5, 1, 'Av. Jujuy 255. 2°, Aula 7', 'CABA');
 
 -- --------------------------------------------------------
 
@@ -112,7 +114,7 @@ INSERT INTO `estados` (`id`, `descripcion`, `para`) VALUES
 (1, 'Nuevo', 'pedido'),
 (2, 'En proceso', 'pedido'),
 (3, 'Listo', 'pedido'),
-(4, 'Cancelado', 'pedido'),
+(4, 'Cancelado', 'todos'),
 (5, 'Pendiente', 'envio'),
 (6, 'En transito', 'envio'),
 (7, 'Entregado', 'todos');
@@ -131,16 +133,19 @@ CREATE TABLE `pedidos` (
   `apellido` varchar(35) NOT NULL,
   `telefono` int(11) NOT NULL,
   `fecha_creacion` datetime NOT NULL DEFAULT current_timestamp(),
-  `fecha_entrega` datetime DEFAULT NULL
+  `fecha_entrega` datetime DEFAULT NULL,
+  `fecha_cancelacion` datetime DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Volcado de datos para la tabla `pedidos`
 --
 
-INSERT INTO `pedidos` (`id`, `id_estado`, `dni`, `nombre`, `apellido`, `telefono`, `fecha_creacion`, `fecha_entrega`) VALUES
-(42, 2, 47030345, 'Massimox', 'Pozzutox', 1140580368, '2023-11-27 04:54:28', NULL),
-(43, 1, 11222222, 'qwedrx', 'tgqwr', 1123232323, '2023-11-27 04:56:11', NULL);
+INSERT INTO `pedidos` (`id`, `id_estado`, `dni`, `nombre`, `apellido`, `telefono`, `fecha_creacion`, `fecha_entrega`, `fecha_cancelacion`) VALUES
+(42, 2, 47030345, 'Massimox', 'Pozzutox', 1140580368, '2023-11-27 04:54:28', NULL, NULL),
+(43, 1, 11222222, 'jejox', 'tgqwr', 1123232323, '2023-11-27 04:56:11', NULL, NULL),
+(44, 2, 10241875, 'Makina', 'De Armado', 1169702254, '2023-11-27 10:44:30', NULL, NULL),
+(45, 4, 12312323, 'eqwrq', 'qere', 1123232323, '2023-11-29 03:17:51', NULL, '2023-12-02 01:35:39');
 
 -- --------------------------------------------------------
 
@@ -163,7 +168,10 @@ INSERT INTO `pedido_producto` (`id_pedido`, `id_producto`, `cantidad`) VALUES
 (42, 39, 70),
 (43, 36, 35),
 (43, 37, 1),
-(43, 39, 23);
+(43, 39, 23),
+(44, 36, 12),
+(44, 37, 20),
+(45, 40, 12);
 
 -- --------------------------------------------------------
 
@@ -185,13 +193,14 @@ CREATE TABLE `productos` (
 --
 
 INSERT INTO `productos` (`id`, `nombre`, `stock`, `precio`, `fecha_creacion`, `fecha_eliminacion`) VALUES
-(36, 'Prueba0', 245, 8000, '2023-11-25 06:02:29', NULL),
-(37, 'Mesa 2m x 70cm x 60cm', 1385, 245412, '2023-11-25 06:13:28', NULL),
+(36, 'Prueba0', 233, 8000, '2023-11-25 06:02:29', NULL),
+(37, 'Mesa 2m x 70cm x 60cm', 1365, 245412, '2023-11-25 06:13:28', NULL),
 (38, 'WEWER', 245, 6754, '2023-11-25 06:13:46', '2023-11-25 06:33:04'),
 (39, 'Tabla 90x90', 1441, 15000, '2023-11-25 06:21:19', NULL),
-(40, 'ProductoAhoraConCate', 30, 1550, '2023-11-25 06:32:11', NULL),
+(40, 'ProductoAhoraConCate', 18, 1550, '2023-11-25 06:32:11', NULL),
 (41, 'aaa', 124, 6536, '2023-11-25 06:35:20', NULL),
-(42, 'PruebaJEJOx', 190, 2000, '2023-11-26 16:24:29', '2023-11-26 16:26:52');
+(42, 'PruebaJEJOx', 190, 2000, '2023-11-26 16:24:29', '2023-11-26 16:26:52'),
+(43, '37', 1234, 2345120, '2023-11-29 03:05:53', '2023-11-29 03:32:58');
 
 -- --------------------------------------------------------
 
@@ -232,8 +241,8 @@ CREATE TABLE `usuarios` (
 --
 
 INSERT INTO `usuarios` (`id`, `nombre`, `apellido`, `username`, `password`, `fecha_creacion`) VALUES
-(6, 'Massimo', 'Pozzuto', 'MassiPozzuto', '8cb2237d0679ca88db6464eac60da96345513964', '2023-11-27 09:02:52'),
-(7, '', NULL, 'admin', 'd033e22ae348aeb5660fc2140aec35850c4da997', '2023-11-27 09:09:33');
+(1, 'Massimo', 'Pozzuto', 'MassiPozzuto', '8cb2237d0679ca88db6464eac60da96345513964', '2023-11-27 09:02:52'),
+(2, '', NULL, 'admin', 'd033e22ae348aeb5660fc2140aec35850c4da997', '2023-11-27 09:09:33');
 
 --
 -- Índices para tablas volcadas
@@ -315,25 +324,25 @@ ALTER TABLE `categorias`
 -- AUTO_INCREMENT de la tabla `envios`
 --
 ALTER TABLE `envios`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
 
 --
 -- AUTO_INCREMENT de la tabla `estados`
 --
 ALTER TABLE `estados`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
 
 --
 -- AUTO_INCREMENT de la tabla `pedidos`
 --
 ALTER TABLE `pedidos`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=44;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=46;
 
 --
 -- AUTO_INCREMENT de la tabla `productos`
 --
 ALTER TABLE `productos`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=43;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=44;
 
 --
 -- AUTO_INCREMENT de la tabla `provincias`
@@ -345,7 +354,7 @@ ALTER TABLE `provincias`
 -- AUTO_INCREMENT de la tabla `usuarios`
 --
 ALTER TABLE `usuarios`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
 
 --
 -- Restricciones para tablas volcadas
